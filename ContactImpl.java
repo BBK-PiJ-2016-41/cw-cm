@@ -60,7 +60,7 @@ public class ContactImpl implements Contact {
   * @return the name of the contact.
   */
   public String getName() {
-    return "";
+    return this.name;
   }
   /**
   * Returns our notes about the contact, if any.
