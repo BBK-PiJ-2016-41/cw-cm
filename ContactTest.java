@@ -31,4 +31,13 @@ public class ContactTest {
     Contact badC = new ContactImpl(3, null);
     Contact bad2 = new ContactImpl(4, null, "International Man of Mystery");
   }
+  @Test
+  public void testNotes() {
+    Contact cWithNotes = new ContactImpl(5, "Deirdre", "I have notes");
+    assertEquals("I have notes", cWithNotes.getNotes());
+  }
+  @Test(expected = NullPointerException.class)
+  public void testBadNotes() {
+    Contact badNotes = new ContactImpl(6, "Sadly no notes", null);
+  }
 }
