@@ -17,5 +17,18 @@ public class ContactTest {
     Contact badC = new ContactImpl(0, "Oops I");
     Contact bad2 = new ContactImpl(-1, "Did It Again", "I played with your heart");
   }
-
+  @Test
+  public void testName() {
+    //Test with first constructor
+    Contact contact = new ContactImpl(1, "Steve");
+    assertEquals("Steve", contact.getName());
+    //Test with second constructor
+    Contact contact2 = new ContactImpl(2, "George Clooney", "Likes Coffee");
+    assertEquals("George Clooney", contact2.getName());
+  }
+  @Test(expected = NullPointerException.class)
+  public void testBadName() {
+    Contact badC = new ContactImpl(3, null);
+    Contact bad2 = new ContactImpl(4, null, "International Man of Mystery");
+  }
 }
