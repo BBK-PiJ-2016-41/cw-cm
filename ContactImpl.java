@@ -17,14 +17,17 @@ public class ContactImpl implements Contact {
   * @throws NullPointerException if either string params are null
   */
   public ContactImpl(int id, String name, String notes) {
-    if (id < 1) {
-      throw new IllegalArgumentException("ID must be a non zero positive integer.");
+    if (id == null) {
+      throw new NullPointerException("ID cannot be null.");
     }
     if (name == null) {
       throw new NullPointerException("Name cannot be null.");
     }
     if (notes == null) {
       throw new NullPointerException("Notes cannot be null.");
+    }
+    if (id < 1) {
+      throw new IllegalArgumentException("ID must be a non zero positive integer.");
     }
     this.id = id;
     this.name = name;
@@ -37,11 +40,14 @@ public class ContactImpl implements Contact {
   * @throws NullPointerException if either string params are null
   */
   public ContactImpl(int id, String name) {
-    if (id < 1) {
-      throw new IllegalArgumentException("ID must be a non zero positive integer.");
+    if (id == null) {
+      throw new NullPointerException("ID cannot be null.");
     }
     if (name == null) {
       throw new NullPointerException("Name cannot be null.");
+    }
+    if (id < 1) {
+      throw new IllegalArgumentException("ID must be a non zero positive integer.");
     }
     this.id = id;
     this.name = name;
