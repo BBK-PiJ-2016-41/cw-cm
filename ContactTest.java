@@ -40,4 +40,10 @@ public class ContactTest {
   public void testBadNotes() {
     Contact badNotes = new ContactImpl(6, "Sadly no notes", null);
   }
+  @Test
+  public void checkNotes() {
+    Contact withNotes = new ContactImpl(7, "Bella");
+    withNotes.addNotes("PitchPerfect");
+    assertEquals("Pitch Perfect", withNotes.getNotes());
+  }
 }
