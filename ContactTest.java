@@ -11,15 +11,11 @@ public class ContactTest {
     Contact c2 = new ContactImpl(2, "Alan", "Partridge");
     assertEquals(2, c2.getId());
   }
-  @Rule
-  public ExpectedException expectedEx = ExpectedException.none();
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testBadId() {
     //Tests with invalid ID
     Contact badC = new ContactImpl(0, "Oops I");
-    expectedEx.expect(IllegalArgumentException.class);
-    Contact bad2 = new ContactImpl(-1, "Did It Again");
-    expectedEx.expect(IllegalArgumentException.class);
+    Contact bad2 = new ContactImpl(-1, "Did It Again", "I played with your heart");
   }
 
 }

@@ -9,11 +9,42 @@ public class ContactImpl implements Contact {
   private int id;
   private String name;
   private String notes;
+  /*Constructor taking three arguments
+  * @param int id
+  * @param String name
+  * @param String notes
+  * @throws IllegalArgumentException if id < 1
+  * @throws NullPointerException if either string params are null
+  */
   public ContactImpl(int id, String name, String notes) {
-
+    if (id < 1) {
+      throw new IllegalArgumentException("ID must be a non zero positive integer.");
+    }
+    if (name == null) {
+      throw new NullPointerException("Name cannot be null.");
+    }
+    if (notes == null) {
+      throw new NullPointerException("Notes cannot be null.");
+    }
+    this.id = id;
+    this.name = name;
+    this.notes = notes;
   }
+  /*Constructor taking two arguments
+  * @param int id
+  * @param String name
+  * @throws IllegalArgumentException if id < 1
+  * @throws NullPointerException if either string params are null
+  */
   public ContactImpl(int id, String name) {
-    
+    if (id < 1) {
+      throw new IllegalArgumentException("ID must be a non zero positive integer.");
+    }
+    if (name == null) {
+      throw new NullPointerException("Name cannot be null.");
+    }
+    this.id = id;
+    this.name = name;
   }
   /**
   * Returns the ID of the contact.
@@ -21,7 +52,7 @@ public class ContactImpl implements Contact {
   * @return the ID of the contact.
   */
   public int getId() {
-    return 0;
+    return this.id;
   }
   /**
   * Returns the name of the contact.
