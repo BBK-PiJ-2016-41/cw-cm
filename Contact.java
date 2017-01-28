@@ -18,7 +18,6 @@ int getId();
 * @return the name of the contact.
 */
 String getName();
-5
 /**
 * Returns our notes about the contact, if any.
 *
