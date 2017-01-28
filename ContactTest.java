@@ -43,7 +43,7 @@ public class ContactTest {
   @Test
   public void checkNotes() {
     Contact withNotes = new ContactImpl(7, "Bella");
-    withNotes.addNotes("PitchPerfect");
+    withNotes.addNotes("Pitch Perfect");
     assertEquals("Pitch Perfect", withNotes.getNotes());
   }
 }

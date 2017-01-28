@@ -79,6 +79,6 @@ public class ContactImpl implements Contact {
   * @param note the notes to be added
   */
   public void addNotes(String note) {
-
+    this.notes = note;
   }
 }
