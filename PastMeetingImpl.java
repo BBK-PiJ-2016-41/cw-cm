@@ -4,6 +4,12 @@
 * It includes your notes about what happened and what was agreed.
 */
 public class PastMeetingImpl extends Meeting implements PastMeeting {
+  private int id;
+
+  public PastMeetingImpl(int id, Calendar date, Set<Contact> contacts, String notes) {
+    this.id;
+  }
+
 /**
 * Returns the notes from the meeting.
 *
