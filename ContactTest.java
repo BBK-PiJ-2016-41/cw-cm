@@ -1,6 +1,6 @@
 import org.junit.*;
 import static org.junit.Assert.*;
-import org.junit.rules.*;
+
 public class ContactTest {
   @Test
   public void testsId() {
