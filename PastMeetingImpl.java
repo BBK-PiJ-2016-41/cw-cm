@@ -1,13 +1,23 @@
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Calendar;
+
 /**
 * A meeting that was held in the past.
 *
 * It includes your notes about what happened and what was agreed.
 */
-public class PastMeetingImpl extends Meeting implements PastMeeting {
+public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
   private int id;
+  private Calendar date;
+  private Set<Contact> contacts;
+  private String notes;
 
   public PastMeetingImpl(int id, Calendar date, Set<Contact> contacts, String notes) {
-    this.id;
+    if (contacts.isEmpty()) {
+      throw new IllegalArgumentException();
+    }
+    this.id = id;
   }
 
 /**
@@ -17,5 +27,7 @@ public class PastMeetingImpl extends Meeting implements PastMeeting {
 *
 * @return the notes from the meeting.
 */
-String getNotes();
+  public String getNotes() {
+    return "";
+  }
 }

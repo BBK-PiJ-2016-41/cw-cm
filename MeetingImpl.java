@@ -1,5 +1,6 @@
 import java.util.Calendar;
 import java.util.Set;
+import java.util.HashSet;
 /**
 * A class to represent meetings
 *
@@ -11,13 +12,19 @@ public abstract class MeetingImpl implements Meeting {
 *
 * @return the id of the meeting.
 */
-int getId();
+public int getId() {
+return 0;
+}
 /**
 * Return the date of the meeting.
 *
 * @return the date of the meeting.
 */
-Calendar getDate();
+public Calendar getDate() {
+  Calendar date = Calendar.getInstance();
+  date.set(2016, 12, 25);
+  return date;
+}
 /**
 * Return the details of people that attended the meeting.
 *
@@ -28,5 +35,8 @@ Calendar getDate();
 *
 * @return the details of people that attended the meeting.
 */
-Set<Contact> getContacts();
+public Set<Contact> getContacts() {
+ Set<Contact> contacts = new HashSet<Contact>();
+ return contacts;
+}
 }

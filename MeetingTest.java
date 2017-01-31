@@ -2,6 +2,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Calendar;
 
 public class MeetingTest {
   @Before
@@ -17,7 +18,7 @@ public class MeetingTest {
   @Test(expected = IllegalArgumentException.class)
   public void testsPMConstructor() {
     String notes = "Some random notes";
-    Calendar date = new Calendar();
+    Calendar date = Calendar.getInstance();
     date.set(2016, 12, 25);
     Set<Contact> contacts = new HashSet<Contact>();
     PastMeeting oldMeeting = new PastMeetingImpl(1, date, contacts, notes);
