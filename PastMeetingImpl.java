@@ -8,10 +8,6 @@ import java.util.Calendar;
 * It includes your notes about what happened and what was agreed.
 */
 public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
-  private int id;
-  private Calendar date;
-  private Set<Contact> contacts;
-  private String notes;
 
   public PastMeetingImpl(int id, Calendar date, Set<Contact> contacts, String notes) {
     if (contacts.isEmpty()) {
@@ -34,6 +30,6 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
 * @return the notes from the meeting.
 */
   public String getNotes() {
-    return "";
+    return this.notes;
   }
 }
