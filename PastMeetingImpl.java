@@ -15,7 +15,7 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
 
   public PastMeetingImpl(int id, Calendar date, Set<Contact> contacts, String notes) {
     if (contacts.isEmpty()) {
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("Set of contacts cannot be empty.");
     }
     this.id = id;
   }

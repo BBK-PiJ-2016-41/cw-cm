@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Calendar;
 
 public class MeetingTest {
+  
   @Before
   public void buildup() {
     Set<Contact> meetingContacts = new HashSet<Contact>();
