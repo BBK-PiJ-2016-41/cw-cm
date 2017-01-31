@@ -7,6 +7,7 @@ import java.util.Calendar;
 public class MeetingTest {
   Set<Contact> meetingContacts;
   Calendar xmas;
+  PastMeeting testMeeting;
   @Before
   public void buildup() {
     meetingContacts = new HashSet<Contact>();
@@ -18,6 +19,7 @@ public class MeetingTest {
     meetingContacts.add(three);
     xmas = Calendar.getInstance();
     xmas.set(2016, 12, 25);
+    testMeeting = new PastMeetingImpl(5, xmas, meetingContacts, "Here are some notes");
   }
   @Test(expected = IllegalArgumentException.class)
   public void testsPMConstructor() {
@@ -43,5 +45,19 @@ public class MeetingTest {
   public void testsPMConstructorNull4() {
     PastMeeting badMeeting4 = new PastMeetingImpl(1, xmas, meetingContacts, null);
   }
-
+  @Test
+  public void testsgetId() {
+    assertEquals(testMeeting.getId(), 5);
+  }
+  @Test
+  public void testsgetDate() {
+    assertEquals(testMeeting.getDate(), xmas);
+  }
+  @Test
+  public void testsgetContacts() {
+    assertEquals(testMeeting.getContacts(), meetingContacts);
+  }
+  public void testsgetNotes() {
+    assertEquals(testMeeting.getNotes(), "Here are some notes");
+  }
 }
