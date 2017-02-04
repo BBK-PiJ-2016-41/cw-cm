@@ -24,7 +24,7 @@ public class MeetingTest {
     nextXmas = Calendar.getInstance();
     nextXmas.set(2017, 12, 25);
     testMeeting = new PastMeetingImpl(5, xmas, meetingContacts, "Here are some notes");
-    testFutureMeeting = new FutureMeetingImpl(8, nextXmas, meetingContacts, "not sure why we're meeting at Xmas");
+    testFutureMeeting = new FutureMeetingImpl(8, nextXmas, meetingContacts);
   }
   @Test(expected = IllegalArgumentException.class)
   public void testsPMConstructor() {
@@ -68,33 +68,27 @@ public class MeetingTest {
   }
   @Test(expected = IllegalArgumentException.class)
   public void testsFMConstructor() {
-    String notes = "Some random notes";
     Calendar date = Calendar.getInstance();
     date.set(2017, 12, 25);
     Set<Contact> contacts = new HashSet<Contact>();
-    FutureMeeting newMeeting = new FutureMeetingImpl(1, date, contacts, notes);
+    FutureMeeting newMeeting = new FutureMeetingImpl(1, date, contacts);
   }
   @Test(expected = NullPointerException.class)
   public void testsFMConstructorNull() {
-    FutureMeeting fMeeting = new FutureMeetingImpl(-1, nextXmas, meetingContacts, "blah");
+    FutureMeeting fMeeting = new FutureMeetingImpl(-1, nextXmas, meetingContacts);
   }
   @Test(expected = NullPointerException.class)
   public void testsFMConstructorNull2() {
-    FutureMeeting fMeeting2 = new FutureMeetingImpl(1, null, meetingContacts, "blah");
+    FutureMeeting fMeeting2 = new FutureMeetingImpl(1, null, meetingContacts);
   }
   @Test(expected = NullPointerException.class)
   public void testsFMConstructorNull3() {
-    FutureMeeting fMeeting3 = new FutureMeetingImpl(1, nextXmas, null, "blah");
-  }
-  @Test(expected = NullPointerException.class)
-  public void testsFMConstructorNull4() {
-    FutureMeeting fMeeting4 = new FutureMeetingImpl(1, nextXmas, meetingContacts, null);
+    FutureMeeting fMeeting3 = new FutureMeetingImpl(1, nextXmas, null);
   }
   @Test
   public void testFutureMeetingFunctions() {
     assertEquals(8, testFutureMeeting.getId());
     assertEquals(nextXmas, testFutureMeeting.getDate());
     assertEquals(meetingContacts, testFutureMeeting.getContacts());
-    assertEquals("not sure why we're meeting at Xmas", testFutureMeeting.getNotes());
   }
 }
