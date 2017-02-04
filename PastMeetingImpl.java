@@ -10,15 +10,10 @@ import java.util.Calendar;
 public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
 
   public PastMeetingImpl(int id, Calendar date, Set<Contact> contacts, String notes) {
-    if (contacts.isEmpty()) {
-      throw new IllegalArgumentException("Set of contacts cannot be empty.");
-    }
-    if (id < 1 || date == null || contacts == null || notes == null) {
+    super(id, date, contacts);
+    if (notes == null) {
       throw new NullPointerException("No null parameters accepted.");
     }
-    this.id = id;
-    this.date = date;
-    this.contacts = contacts;
     this.notes = notes;
   }
 

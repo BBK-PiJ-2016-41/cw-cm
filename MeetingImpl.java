@@ -11,6 +11,19 @@ public abstract class MeetingImpl implements Meeting {
   protected Calendar date;
   protected Set<Contact> contacts;
   protected String notes;
+
+  public MeetingImpl(int id, Calendar date, Set<Contact> contacts) {
+    if (contacts.isEmpty()) {
+      throw new IllegalArgumentException("Set of contacts cannot be empty.");
+    }
+    if (id < 1 || date == null || contacts == null) {
+      throw new NullPointerException("No null parameters accepted.");
+    }
+    this.id = id;
+    this.date = date;
+    this.contacts = contacts;
+    this.notes = notes;
+  }
   /**
   * Returns the id of the meeting.
   *
