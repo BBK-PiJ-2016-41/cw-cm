@@ -1,12 +1,13 @@
 import java.util.Calendar;
 import java.util.Set;
 import java.util.HashSet;
+import java.io.Serializable;
 /**
 * A class to represent meetings
 *
 * Meetings have unique IDs, scheduled date and a list of participating contacts
 */
-public abstract class MeetingImpl implements Meeting {
+public abstract class MeetingImpl implements Meeting, Serializable {
   protected int id;
   protected Calendar date;
   protected Set<Contact> contacts;

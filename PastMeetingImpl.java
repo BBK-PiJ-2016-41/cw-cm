@@ -1,6 +1,7 @@
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Calendar;
+import java.io.Serializable;
 
 /**
 * A meeting that was held in the past.
