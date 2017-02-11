@@ -86,7 +86,6 @@ List<Meeting> getMeetingListOn(Calendar date);
 * @throws NullPointerException if the contact is null
 */
 List<PastMeeting> getPastMeetingListFor(Contact contact);
-3
 /**
 * Create a new record for a meeting that took place in the past.
 *
