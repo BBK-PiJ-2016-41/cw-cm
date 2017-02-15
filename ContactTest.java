@@ -46,4 +46,20 @@ public class ContactTest {
     withNotes.addNotes("Pitch Perfect");
     assertEquals("Pitch Perfect", withNotes.getNotes());
   }
+  @Test
+  public void checkHash() {
+    Contact contact = new ContactImpl(1, "Steve");
+    Contact c2 = new ContactImpl(2, "Alan", "Partridge");
+    assertFalse(contact.hashCode() == c2.hashCode());
+    Contact steve = new ContactImpl(1, "Steve");
+    assertEquals(contact.hashCode(), steve.hashCode());
+  }
+  @Test
+  public void checkEquals() {
+    Contact contact = new ContactImpl(1, "Steve");
+    Contact c2 = new ContactImpl(2, "Alan", "Partridge");
+    assertFalse(contact.equals(c2));
+    Contact steve = new ContactImpl(1, "Steve");
+    assertTrue(contact.equals(steve));
+  }
 }

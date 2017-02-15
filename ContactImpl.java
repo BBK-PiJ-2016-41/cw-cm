@@ -7,8 +7,8 @@ import java.io.Serializable;
 * may want to save about them.
 */
 public class ContactImpl implements Contact, Serializable {
-  private int id;
-  private String name;
+  private final int id;
+  private final String name;
   private String notes;
   /*Constructor taking three arguments
   * @param int id
@@ -81,5 +81,26 @@ public class ContactImpl implements Contact, Serializable {
   */
   public void addNotes(String note) {
     this.notes = note;
+  }
+  /**
+  * A method to override hashCode and facilitate comparison (maybe use apache library here)
+  * @return an int, which is a unique hash code for the id/name combination
+  */
+  @Override
+  public int hashCode() {
+    int hash = 29;
+    Integer id = (Integer)this.id;
+    hash = hash * 31 + id.hashCode();
+    hash = hash * 31 + this.name.hashCode();
+    return hash;
+  }
+  /**
+  * A method to override equals and facilitate comparison
+  * @param contact the contact to compare with this contact
+  * @return a boolean depending on whether the two objects are equal
+  */
+  @Override
+  public boolean equals(Object contact) {
+    return (this.hashCode() == contact.hashCode()) ? true : false;
   }
 }
