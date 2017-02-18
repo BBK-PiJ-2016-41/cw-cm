@@ -119,7 +119,13 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * @return the meeting with the requested ID, or null if it there is none.
   */
   public Meeting getMeeting(int id) {
-    return null;
+    Meeting returnMeeting;
+    try {
+      returnMeeting = this.meetings.get(id);
+    } catch (IndexOutOfBoundsException ex) {
+      return null;
+    }
+    return returnMeeting;
   }
   /**
   * Returns the list of future meetings scheduled with this contact.
