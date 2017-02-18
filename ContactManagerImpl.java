@@ -24,9 +24,9 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     Calendar xmas = Calendar.getInstance();
     xmas.set(2016, 11, 25);
     List<Meeting> myMeetings = new ArrayList<Meeting>();
-    PastMeetingImpl pastMeeting = new PastMeetingImpl(5, xmas, meetingContacts, "Here are some notes");
+    PastMeetingImpl pastMeeting = new PastMeetingImpl(0, xmas, meetingContacts, "Here are some notes");
     this.meetings = myMeetings;
-    this.meetings.add(pastMeeting);
+    this.meetings.add(0, pastMeeting);
     this.contacts = meetingContacts;
   }
   /**
@@ -74,7 +74,19 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * in the future
   */
   public PastMeeting getPastMeeting(int id) {
-    return null;
+    PastMeeting pastMeeting;
+    try {
+      pastMeeting = (PastMeeting)this.meetings.get(id);
+    } catch (IndexOutOfBoundsException ex) {
+      return null;
+    } catch (ClassCastException ex) {
+      throw new IllegalStateException("Meeting is in the future");
+    }
+    Calendar today = Calendar.getInstance();
+    if (pastMeeting.getDate().compareTo(today) > 0) {
+      throw new IllegalStateException("Meeting is in the future");
+    }
+    return pastMeeting;
   }
   /**
   * Returns the FUTURE meeting with the requested ID, or null if there is none.

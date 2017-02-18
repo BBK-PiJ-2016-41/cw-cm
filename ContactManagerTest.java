@@ -48,15 +48,16 @@ public class ContactManagerTest {
   }
   @Test
   public void testGetPastMeeting() {
-    PastMeeting pastMeeting = cMan.getPastMeeting(5);
-    assertEquals(pastMeeting.getId(), 5);
+    PastMeeting pastMeeting = cMan.getPastMeeting(0);
+    assertEquals(pastMeeting.getId(), 0);
   }
-  @Test(expected = NullPointerException.class)
+  @Test
   public void testPMBadId() {
-    cMan.getPastMeeting(77);
+    assertNull(cMan.getPastMeeting(77));
   }
   @Test(expected = IllegalStateException.class)
   public void testPMBadDate() {
-    cMan.getPastMeeting(1);
+    int futureId = cMan.addFutureMeeting(meetingContacts, xmas);
+    cMan.getPastMeeting(futureId);
   }
 }
