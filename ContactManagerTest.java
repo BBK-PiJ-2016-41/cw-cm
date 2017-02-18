@@ -75,4 +75,12 @@ public class ContactManagerTest {
   public void testFMBadDate() {
     cMan.getFutureMeeting(0);
   }
+  @Test
+  public void testGetMeeting() {
+    assertNotNull(cMan.getMeeting(1));
+  }
+  @Test
+  public void testNullMeeting() {
+    assertNull(cMan.getMeeting(35));
+  }
 }
