@@ -60,4 +60,17 @@ public class ContactManagerTest {
     int futureId = cMan.addFutureMeeting(meetingContacts, xmas);
     cMan.getPastMeeting(futureId);
   }
+  @Test
+  public void testGetFutureMeeting() {
+    FutureMeeting futureMeeting = cMan.getFutureMeeting(1);
+    assertEquals(futureMeeting.getId(), 1);
+  }
+  @Test
+  public void testFMBadId() {
+    assertNull(cMan.getFutureMeeting(45));
+  }
+  @Test(expected = IllegalStateException.class)
+  public void testFMBadDate() {
+    cMan.getFutureMeeting(0);
+  }
 }

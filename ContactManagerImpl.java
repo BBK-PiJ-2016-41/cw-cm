@@ -14,6 +14,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   public ContactManagerImpl() {
     //should open contacts.txt file here
     //using dummy details for now
+    //when file is loaded, should run through meeting list and cast through future meetings to past meetings
     Set<Contact> meetingContacts = new HashSet<Contact>();
     Contact one = new ContactImpl(1, "Steve");
     meetingContacts.add(one);
@@ -53,7 +54,6 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     Iterator<Contact> contactIterator = contacts.iterator();
     while (contactIterator.hasNext()) {
       Contact contact = contactIterator.next();
-      //Change implementation - contains() will not work here
       if (!(this.contacts.contains(contact))) {
         throw new IllegalArgumentException("Contact not recognised");
       }
@@ -98,6 +98,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * in the past
   */
   public FutureMeeting getFutureMeeting(int id) {
+    FutureMeeting futureMeeting;
     return null;
   }
   /**
