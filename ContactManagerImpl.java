@@ -99,7 +99,18 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   */
   public FutureMeeting getFutureMeeting(int id) {
     FutureMeeting futureMeeting;
-    return null;
+    try {
+      futureMeeting = (FutureMeeting)this.meetings.get(id);
+    } catch (IndexOutOfBoundsException ex) {
+      return null;
+    } catch (ClassCastException ex) {
+      throw new IllegalStateException("Meeting is in the past");
+    }
+    Calendar today = Calendar.getInstance();
+    if (futureMeeting.getDate().compareTo(today) < 0) {
+      throw new IllegalStateException("Meeting is in the past");
+    }
+    return futureMeeting;
   }
   /**
   * Returns the meeting with the requested ID, or null if it there is none.

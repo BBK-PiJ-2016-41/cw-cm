@@ -19,12 +19,14 @@ public class ContactManagerTest {
     meetingContacts.add(one);
     xmas = Calendar.getInstance();
     xmas.set(2017, 11, 25);
+    cMan.addFutureMeeting(meetingContacts, xmas);
   }
+  /*
   @Test
   public void testAddFutureMeeting() {
     //There is one meeting added at index 0 so we are looking for 1
     assertEquals(1, cMan.addFutureMeeting(meetingContacts, xmas));
-  }
+  }*/
   @Test(expected = IllegalArgumentException.class)
   public void testBadDate() {
     Calendar badDate = Calendar.getInstance();
