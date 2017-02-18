@@ -18,7 +18,7 @@ public class ContactManagerTest {
     Contact one = new ContactImpl(1, "Steve");
     meetingContacts.add(one);
     xmas = Calendar.getInstance();
-    xmas.set(2017, 12, 25);
+    xmas.set(2017, 11, 25);
   }
   @Test
   public void testAddFutureMeeting() {

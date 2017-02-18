@@ -20,9 +20,9 @@ public class MeetingTest {
     Contact three = new ContactImpl(2, "Mary");
     meetingContacts.add(three);
     xmas = Calendar.getInstance();
-    xmas.set(2016, 12, 25);
+    xmas.set(2016, 11, 25);
     nextXmas = Calendar.getInstance();
-    nextXmas.set(2017, 12, 25);
+    nextXmas.set(2017, 11, 25);
     testMeeting = new PastMeetingImpl(5, xmas, meetingContacts, "Here are some notes");
     testFutureMeeting = new FutureMeetingImpl(8, nextXmas, meetingContacts);
   }

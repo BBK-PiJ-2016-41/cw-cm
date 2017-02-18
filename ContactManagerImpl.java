@@ -4,6 +4,7 @@ import java.util.Set;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 /**
 * A class to manage your contacts and meetings.
 */
@@ -21,7 +22,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     Contact three = new ContactImpl(2, "Mary");
     meetingContacts.add(three);
     Calendar xmas = Calendar.getInstance();
-    xmas.set(2016, 12, 25);
+    xmas.set(2016, 11, 25);
     List<Meeting> myMeetings = new ArrayList<Meeting>();
     PastMeetingImpl pastMeeting = new PastMeetingImpl(5, xmas, meetingContacts, "Here are some notes");
     this.meetings = myMeetings;
@@ -42,7 +43,25 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * @throws NullPointerException if the meeting or the date are null
   */
   public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
-    return 1;
+    Calendar today = Calendar.getInstance();
+    if (date == null || contacts == null) {
+      throw new NullPointerException("Arguments cannot be null");
+    }
+    if (date.compareTo(today) < 0) {
+      throw new IllegalArgumentException("Meeting cannot be in the past");
+    }
+    Iterator<Contact> contactIterator = contacts.iterator();
+    while (contactIterator.hasNext()) {
+      Contact contact = contactIterator.next();
+      //Change implementation - contains() will not work here
+      if (!(this.contacts.contains(contact))) {
+        throw new IllegalArgumentException("Contact not recognised");
+      }
+    }
+    int meetingId = this.meetings.size();
+    FutureMeeting newMeeting = new FutureMeetingImpl(meetingId, date, contacts);
+    this.meetings.add(newMeeting);
+    return meetingId;
   }
   /**
   * Returns the PAST meeting with the requested ID, or null if it there is none.
