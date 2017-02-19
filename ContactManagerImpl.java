@@ -154,11 +154,11 @@ public class ContactManagerImpl implements ContactManager, Serializable {
       Meeting current = meetingIterator.next();
       Set<Contact> meetingContacts = current.getContacts();
       Calendar meetingDate = current.getDate();
-      if (meetingContacts.contains(contact) && meetingDate.compareTo(today) > 0) {
+      if (meetingContacts.contains(contact) && meetingDate.compareTo(today) > 0 && (!returnMeetings.contains(current))) {
         returnMeetings.add(current);
       }
     }
-    //need to check for duplicates & make sure sort works
+    //make sure sort works
     returnMeetings.sort(Comparator.comparing(Meeting::getDate));
     return returnMeetings;
   }
@@ -182,11 +182,12 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     Iterator<Meeting> meetingIterator = this.meetings.iterator();
     while (meetingIterator.hasNext()) {
       Meeting current = meetingIterator.next();
-      if (current.getDate().compareTo(date) == 0) {
+      if (current.getDate().compareTo(date) == 0 && (!meetings.contains(current))) {
         meetings.add(current);
       }
     }
-    //Not sorted or duplicates removed - check this
+    //Make sure sort works
+    meetings.sort(Comparator.comparing(Meeting::getDate));
     return meetings;
   }
   /**
@@ -214,11 +215,12 @@ public class ContactManagerImpl implements ContactManager, Serializable {
       Meeting current = meetingIterator.next();
       if (current instanceof PastMeeting) {
         Set<Contact> contacts = current.getContacts();
-        if (contacts.contains(contact)) {
+        if (contacts.contains(contact) && (!pastMeetings.contains(current))) {
           pastMeetings.add((PastMeeting)current);
         }
       }
     }
+    pastMeetings.sort(Comparator.comparing(Meeting::getDate));
     return pastMeetings;
   }
   /**
