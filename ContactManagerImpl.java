@@ -236,7 +236,27 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * @throws NullPointerException if any of the arguments is null
   */
   public int addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
-    return 1;
+    if (contacts == null || date == null || text == null) {
+      throw new NullPointerException("Arguments cannot be null");
+    }
+    if (contacts.isEmpty()) {
+      throw new IllegalArgumentException("Set of contacts cannot be empty");
+    }
+    Iterator<Contact> contactIterator = contacts.iterator();
+    while (contactIterator.hasNext()) {
+      Contact current = contactIterator.next();
+      if (!this.contacts.contains(current)) {
+        throw new IllegalArgumentException("One or more contacts does not exist");
+      }
+    }
+    Calendar today = Calendar.getInstance();
+    if (date.compareTo(today) > 0) {
+      throw new IllegalArgumentException("Date must be in the past");
+    }
+    int meetingId = this.meetings.size();
+    PastMeeting newPastMeeting = new PastMeetingImpl(meetingId, date, contacts, text);
+    this.meetings.add(newPastMeeting);
+    return meetingId;
   }
   /**
   * Add notes to a meeting.
