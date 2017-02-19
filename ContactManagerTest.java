@@ -134,4 +134,43 @@ public class ContactManagerTest {
     Contact badContact = new ContactImpl(21, "Eileen");
     cMan.getPastMeetingListFor(badContact);
   }
+  @Test
+  public void testAddPastMeeting() {
+    Calendar past = Calendar.getInstance();
+    past.set(2017, 1, 2);
+    assertEquals(2, cMan.addNewPastMeeting(meetingContacts, past, "Some notes here"));
+  }
+  @Test (expected = NullPointerException.class)
+  public void testNullPM1() {
+    Calendar past = Calendar.getInstance();
+    past.set(2017, 1, 2);
+    cMan.addNewPastMeeting(null, past, "notes");
+  }
+  @Test (expected = NullPointerException.class)
+  public void testNullPM2() {
+    cMan.addNewPastMeeting(meetingContacts, null, "more notes");
+
+  }
+  @Test (expected = NullPointerException.class)
+  public void testNullPM3() {
+    Calendar past = Calendar.getInstance();
+    past.set(2017, 1, 2);
+    cMan.addNewPastMeeting(meetingContacts, past, null);
+  }
+  @Test (expected = IllegalArgumentException.class)
+  public void testIllArg1() {
+    Set<Contact> contacts = new HashSet<Contact>();
+    cMan.addNewPastMeeting(contacts, xmas, "notes");
+  }
+  public void testIllArg2() {
+    Set<Contact> contacts = new HashSet<Contact>();
+    Contact badContact = new ContactImpl(21, "Eileen");
+    contacts.add(badContact);
+    cMan.addNewPastMeeting(contacts, xmas, "notes");
+  }
+  public void testIllArg3() {
+    Calendar future = Calendar.getInstance();
+    future.set(2018, 0, 1);
+    cMan.addNewPastMeeting(meetingContacts, future, "notes");
+  }
 }
