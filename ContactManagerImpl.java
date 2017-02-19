@@ -201,7 +201,24 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * @throws NullPointerException if the contact is null
   */
   public List<PastMeeting> getPastMeetingListFor(Contact contact) {
-    return null;
+    if (contact == null) {
+      throw new NullPointerException("Contact cannot be null");
+    }
+    if (!this.contacts.contains(contact)) {
+      throw new IllegalArgumentException("Contact does not exist");
+    }
+    List<PastMeeting> pastMeetings = new ArrayList<PastMeeting>();
+    Iterator<Meeting> meetingIterator = this.meetings.iterator();
+    while (meetingIterator.hasNext()) {
+      Meeting current = meetingIterator.next();
+      if (current instanceof PastMeeting) {
+        Set<Contact> contacts = current.getContacts();
+        if (contacts.contains(contact)) {
+          pastMeetings.add((PastMeeting)current);
+        }
+      }
+    }
+    return pastMeetings;
   }
   /**
   * Create a new record for a meeting that took place in the past.
