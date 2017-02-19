@@ -117,4 +117,21 @@ public class ContactManagerTest {
     ArrayList<Meeting> noMeetings = (ArrayList<Meeting>)cMan.getMeetingListOn(randomDate);
     assertEquals(0, noMeetings.size());
   }
+  @Test
+  public void testPMList() {
+    ArrayList<PastMeeting> pastMeetings = (ArrayList<PastMeeting>)cMan.getPastMeetingListFor(one);
+    assertEquals(1, pastMeetings.size());
+    Meeting meeting = pastMeetings.get(0);
+    Set<Contact> contacts = meeting.getContacts();
+    assertTrue(contacts.contains(one));
+  }
+  @Test (expected = NullPointerException.class)
+  public void testPMNullContact() {
+    cMan.getPastMeetingListFor(null);
+  }
+  @Test (expected = IllegalArgumentException.class)
+  public void testPMBadContact() {
+    Contact badContact = new ContactImpl(21, "Eileen");
+    cMan.getPastMeetingListFor(badContact);
+  }
 }
