@@ -162,12 +162,14 @@ public class ContactManagerTest {
     Set<Contact> contacts = new HashSet<Contact>();
     cMan.addNewPastMeeting(contacts, xmas, "notes");
   }
+  @Test (expected = IllegalArgumentException.class)
   public void testIllArg2() {
     Set<Contact> contacts = new HashSet<Contact>();
     Contact badContact = new ContactImpl(21, "Eileen");
     contacts.add(badContact);
     cMan.addNewPastMeeting(contacts, xmas, "notes");
   }
+  @Test (expected = IllegalArgumentException.class)
   public void testIllArg3() {
     Calendar future = Calendar.getInstance();
     future.set(2018, 0, 1);
