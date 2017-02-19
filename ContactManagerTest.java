@@ -175,4 +175,21 @@ public class ContactManagerTest {
     future.set(2018, 0, 1);
     cMan.addNewPastMeeting(meetingContacts, future, "notes");
   }
+  @Test
+  public void testAddMeetingNotes() {
+    PastMeeting firstMeeting = cMan.addMeetingNotes(0, "Notes for the first meeting");
+    assertEquals(firstMeeting.getDate(), xmas);
+  }
+  @Test (expected = IllegalArgumentException.class)
+  public void addMysteryMeetingNotes() {
+    cMan.addMeetingNotes(13, "This meeting definitely doesn't exist");
+  }
+  @Test (expected = IllegalStateException.class)
+  public void addNotesFuture() {
+    cMan.addMeetingNotes(1, "This meeting is definitely in the future");
+  }
+  @Test (expected = NullPointerException.class)
+  public void addNotesNull() {
+    cMan.addMeetingNotes(0, null);
+  }
 }
