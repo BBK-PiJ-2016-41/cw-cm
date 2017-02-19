@@ -11,11 +11,12 @@ public class ContactManagerTest {
   ContactManager cMan;
   Set<Contact> meetingContacts;
   Calendar xmas;
+  Contact one;
   @Before
   public void buildup() {
     cMan = new ContactManagerImpl();
     meetingContacts = new HashSet<Contact>();
-    Contact one = new ContactImpl(1, "Steve");
+    one = new ContactImpl(1, "Steve");
     meetingContacts.add(one);
     xmas = Calendar.getInstance();
     xmas.set(2017, 11, 25);
@@ -82,5 +83,22 @@ public class ContactManagerTest {
   @Test
   public void testNullMeeting() {
     assertNull(cMan.getMeeting(35));
+  }
+  @Test
+  public void testFMList() {
+    ArrayList<Meeting> futureMeetings = (ArrayList<Meeting>)cMan.getFutureMeetingList(one);
+    assertEquals(1, futureMeetings.size());
+    Meeting meeting = futureMeetings.get(0);
+    Set<Contact> contacts = meeting.getContacts();
+    assertTrue(contacts.contains(one));
+  }
+  @Test (expected = NullPointerException.class)
+  public void testFMNullContact() {
+    cMan.getFutureMeetingList(null);
+  }
+  @Test (expected = IllegalArgumentException.class)
+  public void testFMBadContact() {
+    Contact badContact = new ContactImpl(21, "Eileen");
+    cMan.getFutureMeetingList(badContact);
   }
 }
