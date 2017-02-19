@@ -174,7 +174,19 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * @throws NullPointerException if the date are null
   */
   public List<Meeting> getMeetingListOn(Calendar date) {
-    return null;
+    if (date == null) {
+      throw new NullPointerException("Date cannot be null");
+    }
+    List<Meeting> meetings = new ArrayList<Meeting>();
+    Iterator<Meeting> meetingIterator = this.meetings.iterator();
+    while (meetingIterator.hasNext()) {
+      Meeting current = meetingIterator.next();
+      if (current.getDate().compareTo(date) == 0) {
+        meetings.add(current);
+      }
+    }
+    //Not sorted or duplicates removed - check this
+    return meetings;
   }
   /**
   * Returns the list of past meetings in which this contact has participated.
