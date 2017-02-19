@@ -178,7 +178,9 @@ public class ContactManagerTest {
   @Test
   public void testAddMeetingNotes() {
     PastMeeting firstMeeting = cMan.addMeetingNotes(0, "Notes for the first meeting");
-    assertEquals(firstMeeting.getDate(), xmas);
+    Calendar dateExp = Calendar.getInstance();
+    dateExp.set(2016, 11, 25);
+    assertEquals(0, dateExp.compareTo(firstMeeting.getDate()));
   }
   @Test (expected = IllegalArgumentException.class)
   public void addMysteryMeetingNotes() {

@@ -28,4 +28,11 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
   public String getNotes() {
     return this.notes;
   }
+  /**
+  * Sets the notes to the value passed to the method.
+  * @param notes a String containing the notes to set
+  */
+  public void setNotes(String notes) {
+    this.notes = notes;
+  }
 }

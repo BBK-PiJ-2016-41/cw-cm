@@ -273,7 +273,28 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * @throws NullPointerException if the notes are null
   */
   public PastMeeting addMeetingNotes(int id, String text) {
-    return null;
+    if (text == null) {
+      throw new NullPointerException("Notes cannot be null");
+    }
+    PastMeetingImpl meeting;
+    try {
+      meeting = (PastMeetingImpl)this.meetings.get(id);
+    } catch (IndexOutOfBoundsException ex) {
+      throw new IllegalArgumentException("Meeting does not exist");
+    } catch (ClassCastException ex) {
+      throw new IllegalStateException("Meeting is set for a date in the future");
+    }
+    if (meeting == null) {
+      throw new IllegalArgumentException("Meeting does not exist");
+    }
+    Calendar today = Calendar.getInstance();
+    if (today.compareTo(meeting.getDate()) < 0) {
+      throw new IllegalStateException("Meeting is set for a date in the future");
+    }
+    String existingNotes = meeting.getNotes();
+    String newNotes = existingNotes + " " + text;
+    meeting.setNotes(newNotes);
+    return meeting;
   }
   /**
   * Create a new contact with the specified name and notes.
