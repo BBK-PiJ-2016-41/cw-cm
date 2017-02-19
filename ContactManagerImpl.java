@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Comparator;
 /**
 * A class to manage your contacts and meetings.
 */
@@ -158,7 +159,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
       }
     }
     //need to check for duplicates & make sure sort works
-    //returnMeetings.sort(Comparator.comparing(Meeting::getDate));
+    returnMeetings.sort(Comparator.comparing(Meeting::getDate));
     return returnMeetings;
   }
   /**
