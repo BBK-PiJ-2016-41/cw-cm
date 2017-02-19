@@ -101,4 +101,20 @@ public class ContactManagerTest {
     Contact badContact = new ContactImpl(21, "Eileen");
     cMan.getFutureMeetingList(badContact);
   }
+  @Test
+  public void testGetMeetingOnDate() {
+    ArrayList<Meeting> meetings = (ArrayList<Meeting>)cMan.getMeetingListOn(xmas);
+    assertEquals(1, meetings.size());
+  }
+  @Test (expected = NullPointerException.class)
+  public void testBadDateNull() {
+    cMan.getMeetingListOn(null);
+  }
+  @Test
+  public void testEmptyDate() {
+    Calendar randomDate = Calendar.getInstance();
+    randomDate.set(2017, 1, 14);
+    ArrayList<Meeting> noMeetings = (ArrayList<Meeting>)cMan.getMeetingListOn(randomDate);
+    assertEquals(0, noMeetings.size());
+  }
 }

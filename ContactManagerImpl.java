@@ -157,6 +157,8 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         returnMeetings.add(current);
       }
     }
+    //need to check for duplicates & make sure sort works
+    //returnMeetings.sort(Comparator.comparing(Meeting::getDate));
     return returnMeetings;
   }
   /**
