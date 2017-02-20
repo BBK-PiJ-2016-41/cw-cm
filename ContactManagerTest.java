@@ -6,6 +6,7 @@ import java.util.Set;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class ContactManagerTest {
   ContactManager cMan;
@@ -175,6 +176,7 @@ public class ContactManagerTest {
     future.set(2018, 0, 1);
     cMan.addNewPastMeeting(meetingContacts, future, "notes");
   }
+  /*
   @Test
   public void testAddMeetingNotes() {
     PastMeeting firstMeeting = cMan.addMeetingNotes(0, "Notes for the first meeting");
@@ -182,6 +184,7 @@ public class ContactManagerTest {
     dateExp.set(2016, 11, 25);
     assertEquals(0, dateExp.compareTo(firstMeeting.getDate()));
   }
+  */
   @Test (expected = IllegalArgumentException.class)
   public void addMysteryMeetingNotes() {
     cMan.addMeetingNotes(13, "This meeting definitely doesn't exist");
@@ -213,5 +216,20 @@ public class ContactManagerTest {
   @Test (expected = NullPointerException.class)
   public void testNullNotes() {
     cMan.addNewContact("Name", null);
+  }
+  @Test
+  public void testGetContacts() {
+    Set<Contact> steves = cMan.getContacts("Steve");
+    assertEquals(1, steves.size());
+    Iterator<Contact> iterator = steves.iterator();
+    while (iterator.hasNext()) {
+      Contact contact = iterator.next();
+      assertTrue(contact.getName().contains("Steve"));
+    }
+  }
+  @Test (expected = NullPointerException.class)
+  public void testNullContName() {
+    String nullString = null;
+    cMan.getContacts(nullString);
   }
 }

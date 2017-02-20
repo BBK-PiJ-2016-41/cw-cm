@@ -338,10 +338,11 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * @return a set containing the contacts that correspond to the IDs.
   * @throws IllegalArgumentException if no IDs are provided or if
   * any of the provided IDs does not correspond to a real contact
-  */
+  */  
   public Set<Contact> getContacts(int... ids) {
     return null;
   }
+
   /**
   * Save all data to disk.
   *
