@@ -194,4 +194,24 @@ public class ContactManagerTest {
   public void addNotesNull() {
     cMan.addMeetingNotes(0, null);
   }
+  @Test
+  public void testaddContact() {
+    assertEquals(4, cMan.addNewContact("Phili", "sister"));
+  }
+  @Test (expected = IllegalArgumentException.class)
+  public void testEmptyName() {
+    cMan.addNewContact("", "notes");
+  }
+  @Test (expected = IllegalArgumentException.class)
+  public void testEmptyNotes() {
+    cMan.addNewContact("Random", "");
+  }
+  @Test (expected = NullPointerException.class)
+  public void testNullName() {
+    cMan.addNewContact(null, "notes");
+  }
+  @Test (expected = NullPointerException.class)
+  public void testNullNotes() {
+    cMan.addNewContact("Name", null);
+  }
 }
