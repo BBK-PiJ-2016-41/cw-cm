@@ -306,7 +306,16 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * @throws NullPointerException if the name or the notes are null
   */
   public int addNewContact(String name, String notes) {
-    return 1;
+    if (name == null || notes == null) {
+      throw new NullPointerException("Arguments cannot be null");
+    }
+    if (name.equals("") || notes.equals("")) {
+      throw new IllegalArgumentException("Arguments cannot be empty");
+    }
+    int contactId = this.contacts.size() + 1;
+    ContactImpl newContact = new ContactImpl(contactId, name, notes);
+    this.contacts.add(newContact);
+    return contactId;
   }
   /**
   * Returns a set with the contacts whose name contains that string.
