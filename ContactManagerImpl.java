@@ -328,7 +328,18 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * @throws NullPointerException if the parameter is null
   */
   public Set<Contact> getContacts(String name) {
-    return null;
+    if (name == null) {
+      throw new NullPointerException("Name cannot be null");
+    }
+    Set<Contact> returnContacts = new HashSet<Contact>();
+    Iterator<Contact> contactIterator = this.contacts.iterator();
+    while (contactIterator.hasNext()) {
+      Contact contact = contactIterator.next();
+      if (contact.getName().contains(name)) {
+        returnContacts.add(contact);
+      }
+    }
+    return returnContacts;
   }
   /**
   * Returns a set containing the contacts that correspond to the IDs.
@@ -338,7 +349,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * @return a set containing the contacts that correspond to the IDs.
   * @throws IllegalArgumentException if no IDs are provided or if
   * any of the provided IDs does not correspond to a real contact
-  */  
+  */
   public Set<Contact> getContacts(int... ids) {
     return null;
   }
