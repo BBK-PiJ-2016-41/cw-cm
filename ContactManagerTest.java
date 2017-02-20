@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Arrays;
 
 public class ContactManagerTest {
   ContactManager cMan;
@@ -231,5 +232,21 @@ public class ContactManagerTest {
   public void testNullContName() {
     String nullString = null;
     cMan.getContacts(nullString);
+  }
+  @Test
+  public void getContactsInts() {
+    Set<Contact> moreContacts = cMan.getContacts(1, 2);
+    assertEquals(2, moreContacts.size());
+    Contact[] contactArray = (Contact[])moreContacts.toArray();
+    assertTrue(Arrays.asList(contactArray).contains(one));
+  }
+  @Test (expected = IllegalArgumentException.class)
+  public void getContactsBadInts() {
+    cMan.getContacts(1, 2, 35);
+  }
+  @Test (expected = IllegalArgumentException.class)
+  public void getContactsNoInts() {
+    int[] blank = new int[3];
+    cMan.getContacts(blank);
   }
 }
