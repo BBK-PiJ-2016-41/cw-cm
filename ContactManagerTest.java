@@ -237,7 +237,7 @@ public class ContactManagerTest {
   public void getContactsInts() {
     Set<Contact> moreContacts = cMan.getContacts(1, 2);
     assertEquals(2, moreContacts.size());
-    Contact[] contactArray = (Contact[])moreContacts.toArray();
+    Object[] contactArray = moreContacts.toArray();
     assertTrue(Arrays.asList(contactArray).contains(one));
   }
   @Test (expected = IllegalArgumentException.class)

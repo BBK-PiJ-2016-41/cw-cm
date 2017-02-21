@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Comparator;
+import java.util.Arrays;
 /**
 * A class to manage your contacts and meetings.
 */
@@ -351,7 +352,27 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * any of the provided IDs does not correspond to a real contact
   */
   public Set<Contact> getContacts(int... ids) {
-    return null;
+    //This doesn't work yet. Can't use arrays.asList.contains, find another way
+    int noIds = ids.length;
+    Integer[] complexIds = new Integer[noIds];
+    for (int i = 0; i < noIds; i++) {
+      complexIds[i] = (Integer)ids[i];
+    }
+    if (noIds == 0) {
+      throw new IllegalArgumentException("Please provide some IDs");
+    }
+    Set<Contact> returnContacts = new HashSet<Contact>();
+    Iterator<Contact> contactIterator = this.contacts.iterator();
+    while (contactIterator.hasNext() && returnContacts.size() <= noIds) {
+      Contact contact = contactIterator.next();
+      if (Arrays.asList(complexIds).contains(contact.getId())) {
+        returnContacts.add(contact);
+      }
+    }
+    if (noIds != returnContacts.size()) {
+      throw new IllegalArgumentException(noIds - returnContacts.size() + " ids are not present in the contact set");
+    }
+    return returnContacts;
   }
 
   /**
