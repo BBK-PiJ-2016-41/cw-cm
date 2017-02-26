@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Comparator;
 import java.util.Arrays;
+import java.io.*;
 /**
 * A class to manage your contacts and meetings.
 */
@@ -14,9 +15,76 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   private List<Meeting> meetings;
   private Set<Contact> contacts;
   public ContactManagerImpl() {
-    //should open contacts.txt file here
-    //using dummy details for now
+    this.meetings = new ArrayList<Meeting>();
+    this.contacts = new HashSet<Contact>();
+    FileInputStream input = null;
+    ObjectInputStream ois = null;
+    try {
+      input = new FileInputStream("contacts.txt");
+      if (input != null && input.available() > 0) {
+        ois = new ObjectInputStream(input);
+        while (ois.available() > 0) {
+          int objectType = ois.read();
+          Object readIn = ois.readObject();
+          if (objectType == 1) {
+            PastMeeting pastMeeting = (PastMeeting)readIn;
+            this.meetings.add(pastMeeting);
+            System.out.println(pastMeeting.getId());
+          } else if (objectType == 2) {
+            FutureMeeting futureMeeting = (FutureMeeting)readIn;
+            this.meetings.add(futureMeeting);
+            System.out.println(futureMeeting.getId());
+          } else if (objectType == 3) {
+            Contact contact = (Contact)readIn;
+            this.contacts.add(contact);
+            System.out.println(contact.getName());
+          }
+        }
+      }
+    } catch (FileNotFoundException ex) {
+      ex.printStackTrace();
+      System.out.println("Contacts file not found");
+    } catch (EOFException ex) {
+      ex.printStackTrace();
+      System.out.println("File is empty, proceed with empty Contact Manager");
+    } catch (IOException ex) {
+      ex.printStackTrace();
+      System.out.println("I/O Exception opening file");
+    } catch (SecurityException ex) {
+      ex.printStackTrace();
+      System.out.println("You aren't authorised to access this file");
+    } catch (NullPointerException ex) {
+      ex.printStackTrace();
+      System.out.println("Input file cannot be null");
+    } catch (ClassNotFoundException ex) {
+      ex.printStackTrace();
+      System.out.println("Class of object not found");
+    } finally {
+      try {
+        if (ois != null) {
+          ois.close();
+        }
+        if (input != null) {
+          input.close();
+        }
+      } catch (IOException ex) {
+        ex.printStackTrace();
+        System.out.println("I/O Exception closing file");
+      } catch (NullPointerException ex) {
+        ex.printStackTrace();
+        System.out.println("Input stream is empty");
+      }
+    }
     //when file is loaded, should run through meeting list and cast through future meetings to past meetings
+    Calendar today = Calendar.getInstance();
+    Iterator<Meeting> meetingIterator = this.meetings.iterator();
+    while (meetingIterator.hasNext()) {
+      Meeting meeting = meetingIterator.next();
+      if (meeting instanceof FutureMeeting && meeting.getDate().compareTo(today) < 0) {
+        meeting = (PastMeeting)meeting;
+      }
+    }
+    /*
     Set<Contact> meetingContacts = new HashSet<Contact>();
     Contact one = new ContactImpl(1, "Steve");
     meetingContacts.add(one);
@@ -31,6 +99,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     this.meetings = myMeetings;
     this.meetings.add(0, pastMeeting);
     this.contacts = meetingContacts;
+    */
   }
   /**
   * Add a new meeting to be held in the future.
@@ -188,7 +257,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
       }
     }
     //Make sure sort works
-    meetings.sort(Comparator.comparing(Meeting::getDate));
+    //meetings.sort(Comparator.comparing(Meeting::getDate));
     return meetings;
   }
   /**
@@ -336,7 +405,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     Iterator<Contact> contactIterator = this.contacts.iterator();
     while (contactIterator.hasNext()) {
       Contact contact = contactIterator.next();
-      if (contact.getName().contains(name)) {
+      if (contact.getName().contains(name) || contact.getName().equals(name)) {
         returnContacts.add(contact);
       }
     }
@@ -352,7 +421,6 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * any of the provided IDs does not correspond to a real contact
   */
   public Set<Contact> getContacts(int... ids) {
-    //This doesn't work yet. Can't use arrays.asList.contains, find another way
     int noIds = ids.length;
     Integer[] complexIds = new Integer[noIds];
     for (int i = 0; i < noIds; i++) {
@@ -382,6 +450,49 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * closed and when/if the user requests it.
   */
   public void flush() {
+    FileOutputStream output = null;
+    ObjectOutputStream oos = null;
+    try {
+      output = new FileOutputStream("contacts.txt");
+      oos = new ObjectOutputStream(output);
+      Iterator<Meeting> meetingIterator = this.meetings.iterator();
+      while (meetingIterator.hasNext()) {
+        Meeting meeting = meetingIterator.next();
+        if (meeting instanceof PastMeeting) {
+          oos.write(1);
+        } else if (meeting instanceof FutureMeeting) {
+          oos.write(2);
+        }
+        oos.writeObject(meeting);
+      }
+      Iterator<Contact> contactIterator = this.contacts.iterator();
+      while (contactIterator.hasNext()) {
+        Contact contact = contactIterator.next();
+        oos.write(3);
+        oos.writeObject(contact);
+      }
+      oos.flush();
+    } catch (FileNotFoundException ex) {
+      ex.printStackTrace();
+      System.out.println("Contacts file not found");
+    } catch (IOException ex) {
+      ex.printStackTrace();
+      System.out.println("I/O exception opening file");
+    } catch (SecurityException ex) {
+      ex.printStackTrace();
+      System.out.println("You are not authorised to access this file");
+    } catch (NullPointerException ex) {
+      ex.printStackTrace();
+      System.out.println("Output file cannot be null");
+    } finally {
+      try {
+        oos.close();
+        output.close();
+      } catch (IOException ex) {
+        ex.printStackTrace();
+        System.out.println("I/O exception closing file");
+      }
+    }
     return;
   }
 }

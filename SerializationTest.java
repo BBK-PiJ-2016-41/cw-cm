@@ -10,23 +10,18 @@ import java.util.Iterator;
 import java.util.Arrays;
 
 public class SerializationTest {
-  ContactManager cMan;
-  Calendar today;
   Calendar tomorrow;
+  @Before
   public void buildup() {
-    cMan = new ContactManagerImpl();
-    today = Calendar.getInstance();
     tomorrow = Calendar.getInstance();
-    tomorrow.set(2017, 1, 26);
+    tomorrow.set(2017, 1, 27);
   }
   //Test that getContacts and getMeetings both return sets/lists of length 0 initially
   @Test
   public void testEmpty() {
-    assertEquals(0, cMan.getContacts("Steve").size());
-    assertEquals(0, cMan.getMeetingListOn(tomorrow).size());
-  }
-  //Add some contacts and meetings
-  public void modify() {
+    ContactManager cMan = new ContactManagerImpl();
+    assertTrue(cMan.getContacts("Steve").isEmpty());
+    assertTrue(cMan.getMeetingListOn(tomorrow).isEmpty());
     cMan.addNewContact("Steve", "Steve is the first contact");
     cMan.addNewContact("Mary", "Mary can be a bit quiet");
     cMan.addNewContact("John", "John is a complete arsehole");
