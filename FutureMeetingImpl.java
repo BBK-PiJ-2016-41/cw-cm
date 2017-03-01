@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.io.Serializable;
 /**
 * A meeting to be held in the future
+* @author kathryn.buckley
 */
 public class FutureMeetingImpl extends MeetingImpl implements FutureMeeting {
 // No methods here, this is just a naming interface

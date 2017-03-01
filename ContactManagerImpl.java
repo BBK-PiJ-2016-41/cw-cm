@@ -431,8 +431,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     }
     return returnContacts;
   }
-  /*
+  /**
   * Sets the time of a Date object to zero for comparison purposes
+  * @param date an instance of Calendar that needs modifying
+  * @return the date modified to contain no timestamps
   */
   private Calendar setZeroTime(Calendar date) {
     Calendar result = date;

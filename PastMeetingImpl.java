@@ -7,6 +7,7 @@ import java.io.Serializable;
 * A meeting that was held in the past.
 *
 * It includes your notes about what happened and what was agreed.
+* @author kathryn.buckley
 */
 public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
 

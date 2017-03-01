@@ -5,6 +5,7 @@ import java.io.Serializable;
 * Contacts have an ID (unique, a non-zero positive integer),
 * a name (not necessarily unique), and notes that the user
 * may want to save about them.
+* @author kathryn.buckley
 */
 public class ContactImpl implements Contact, Serializable {
   private final int id;
