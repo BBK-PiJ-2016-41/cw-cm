@@ -14,7 +14,7 @@ public class SerializationTest {
   @Before
   public void buildup() {
     tomorrow = Calendar.getInstance();
-    tomorrow.set(2017, 1, 27);
+    tomorrow.set(2017, 2, 27);
   }
   //Test that getContacts and getMeetings both return sets/lists of length 0 initially
   @Test
