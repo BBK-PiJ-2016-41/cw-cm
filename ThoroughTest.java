@@ -10,17 +10,19 @@ import java.util.Iterator;
 import java.util.Arrays;
 
 public class ThoroughTest {
-  ContactManager cMan;
-  Set<Contact> evenContacts;
-  Set<Contact> oddContacts;
-  @Before
-  public void buildup() {
+  static ContactManager cMan;
+  static Set<Contact> evenContacts;
+  static Set<Contact> oddContacts;
+  @BeforeClass
+  public static void buildup() {
     cMan = new ContactManagerImpl();
     evenContacts = new HashSet<Contact>();
     oddContacts = new HashSet<Contact>();
     //add contacts
     for (int i = 0; i < 20; i++) {
-      int id = cMan.addNewContact("Contact " + i, "notes");
+      String name = "Contact " + i;
+      System.out.println(name);
+      int id = cMan.addNewContact(name, "notes");
       Contact contact = new ContactImpl(id, "Contact " + i);
       if (i%2 == 0) {
         evenContacts.add(contact);
@@ -29,13 +31,13 @@ public class ThoroughTest {
       }
     }
     //add some past meetings
-    for (int i = 0; i < 11; i++) {
+    for (int i = 0; i < 12; i++) {
       Calendar date = Calendar.getInstance();
       date.set(2016, i, 15);
       cMan.addNewPastMeeting(evenContacts, date, "Some random notes");
     }
     //add some future meetings
-    for (int i = 0; i < 11; i++) {
+    for (int i = 0; i < 12; i++) {
       Calendar date = Calendar.getInstance();
       date.set(2018, i, 15);
       cMan.addFutureMeeting(oddContacts, date);
@@ -92,8 +94,8 @@ public class ThoroughTest {
     assertEquals(3, cMan.getContacts(4, 5, 6).size());
   }
   @Test
-  // Assert that there is 1 contact with the name "Contact 1"
+  // Assert that there is 1 contact with the name "Contact 2"
   public void testNine() {
-    assertEquals(1, cMan.getContacts("Contact 1").size());
+    assertEquals(1, cMan.getContacts("Contact 2").size());
   }
 }
