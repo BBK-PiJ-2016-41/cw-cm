@@ -10,6 +10,11 @@ import java.util.Arrays;
 import java.io.*;
 /**
 * A class to manage your contacts and meetings.
+* Citations used:
+* 1. For method reference implementation of Comparator
+* http://stackoverflow.com/questions/2784514/sort-arraylist-of-custom-objects-by-property
+* 2. For implementation of hash code
+* Josh Bloch's Effective Java
 * @author kathryn.buckley
 */
 public class ContactManagerImpl implements ContactManager, Serializable {
