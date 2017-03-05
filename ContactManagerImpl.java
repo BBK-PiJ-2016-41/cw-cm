@@ -34,67 +34,78 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     this.today = Calendar.getInstance();
     this.meetings = new ArrayList<Meeting>();
     this.contacts = new HashSet<Contact>();
-    FileInputStream input = null;
-    ObjectInputStream ois = null;
-    try {
-      input = new FileInputStream("contacts.txt");
-      if (input != null && input.available() > 0) {
-        ois = new ObjectInputStream(input);
-        while (ois.available() > 0) {
-          int objectType = ois.read();
-          Object readIn = ois.readObject();
-          if (objectType == 1) {
-            PastMeeting pastMeeting = (PastMeeting)readIn;
-            this.meetings.add(pastMeeting);
-          } else if (objectType == 2) {
-            FutureMeeting meeting = (FutureMeeting)readIn;
-            if (meeting.getDate().compareTo(today) < 0) {
-              PastMeeting newPastMeeting = new PastMeetingImpl(meeting.getId(), meeting.getDate(), meeting.getContacts(), "Meeting date has passed");
-              this.meetings.add(newPastMeeting);
-            } else {
-              this.meetings.add(meeting);
+    String filename = "contacts.txt";
+    File file = new File(filename);
+    if (file.exists()) {
+      FileInputStream input = null;
+      ObjectInputStream ois = null;
+      try {
+        input = new FileInputStream(filename);
+        if (input != null && input.available() > 0) {
+          ois = new ObjectInputStream(input);
+          while (ois.available() > 0) {
+            int objectType = ois.read();
+            Object readIn = ois.readObject();
+            if (objectType == 1) {
+              PastMeeting pastMeeting = (PastMeeting)readIn;
+              this.meetings.add(pastMeeting);
+            } else if (objectType == 2) {
+              FutureMeeting meeting = (FutureMeeting)readIn;
+              if (meeting.getDate().compareTo(today) < 0) {
+                PastMeeting newPastMeeting = new PastMeetingImpl(meeting.getId(), meeting.getDate(), meeting.getContacts(), "Meeting date has passed");
+                this.meetings.add(newPastMeeting);
+              } else {
+                this.meetings.add(meeting);
+              }
+            } else if (objectType == 3) {
+              Contact contact = (Contact)readIn;
+              this.contacts.add(contact);
             }
-          } else if (objectType == 3) {
-            Contact contact = (Contact)readIn;
-            this.contacts.add(contact);
           }
         }
-      }
-    } catch (FileNotFoundException ex) {
-      ex.printStackTrace();
-      System.out.println("Contacts file not found");
-    } catch (EOFException ex) {
-      ex.printStackTrace();
-      System.out.println("File is empty, proceed with empty Contact Manager");
-    } catch (IOException ex) {
-      ex.printStackTrace();
-      System.out.println("I/O Exception opening file");
-    } catch (SecurityException ex) {
-      ex.printStackTrace();
-      System.out.println("You aren't authorised to access this file");
-    } catch (NullPointerException ex) {
-      ex.printStackTrace();
-      System.out.println("Input file cannot be null");
-    } catch (ClassNotFoundException ex) {
-      ex.printStackTrace();
-      System.out.println("Class of object not found");
-    } finally {
-      try {
-        if (ois != null) {
-          ois.close();
-        }
-        if (input != null) {
-          input.close();
-        }
+      } catch (FileNotFoundException ex) {
+        ex.printStackTrace();
+        System.out.println("Contacts file not found");
+      } catch (EOFException ex) {
+        ex.printStackTrace();
+        System.out.println("File is empty, proceed with empty Contact Manager");
       } catch (IOException ex) {
         ex.printStackTrace();
-        System.out.println("I/O Exception closing file");
+        System.out.println("I/O Exception opening file");
+      } catch (SecurityException ex) {
+        ex.printStackTrace();
+        System.out.println("You aren't authorised to access this file");
       } catch (NullPointerException ex) {
         ex.printStackTrace();
-        System.out.println("Input stream is empty");
+        System.out.println("Input file cannot be null");
+      } catch (ClassNotFoundException ex) {
+        ex.printStackTrace();
+        System.out.println("Class of object not found");
+      } finally {
+        try {
+          if (ois != null) {
+            ois.close();
+          }
+          if (input != null) {
+            input.close();
+          }
+        } catch (IOException ex) {
+          ex.printStackTrace();
+          System.out.println("I/O Exception closing file");
+        } catch (NullPointerException ex) {
+          ex.printStackTrace();
+          System.out.println("Input stream is empty");
+        }
+      }
+      this.meetings.sort(Comparator.comparing(Meeting::getId));
+    } else {
+      try {
+        file.createNewFile();
+      } catch (IOException ex){
+        ex.printStackTrace();
+        System.out.println("Unable to create file");
       }
     }
-    this.meetings.sort(Comparator.comparing(Meeting::getId));
   }
   /**
   * Add a new meeting to be held in the future.
