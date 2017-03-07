@@ -9,11 +9,30 @@ import java.io.Serializable;
 * @author kathryn.buckley
 */
 public abstract class MeetingImpl implements Meeting, Serializable {
+  /**
+  * The ID of the meeting
+  */
   protected int id;
+  /**
+  * The date of the meeting
+  */
   protected Calendar date;
+  /**
+  * The contacts attending the meeting
+  */
   protected Set<Contact> contacts;
+  /**
+  * Notes about the meeting
+  */
   protected String notes;
-
+  /**
+  * Constructor takes an int to denote meeting ID, the date of the meeting, and a set of contacts attending
+  * @param int id, the ID of the meeting
+  * @param Calendar date, the date of the meeting
+  * @param Set<Contact> contacts, the contacts who are attending the meeting
+  * @throws IllegalArgumentException if the set of contacts is empty
+  * @throws NullPointerException if any of the parameters are null
+  */
   public MeetingImpl(int id, Calendar date, Set<Contact> contacts) {
     if (contacts.isEmpty()) {
       throw new IllegalArgumentException("Set of contacts cannot be empty.");
@@ -24,33 +43,21 @@ public abstract class MeetingImpl implements Meeting, Serializable {
     this.id = id;
     this.date = date;
     this.contacts = contacts;
-    this.notes = notes;
   }
   /**
-  * Returns the id of the meeting.
-  *
-  * @return the id of the meeting.
+  * {@inheritDoc}
   */
   public int getId() {
     return id;
   }
   /**
-  * Return the date of the meeting.
-  *
-  * @return the date of the meeting.
+  * {@inheritDoc}
   */
   public Calendar getDate() {
     return date;
   }
   /**
-  * Return the details of people that attended the meeting.
-  *
-  6
-  * The list contains a minimum of one contact (if there were
-  * just two people: the user and the contact) and may contain an
-  * arbitrary number of them.
-  *
-  * @return the details of people that attended the meeting.
+  * {@inheritDoc}
   */
   public Set<Contact> getContacts() {
     return contacts;

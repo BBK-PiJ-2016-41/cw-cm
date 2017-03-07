@@ -9,6 +9,10 @@ import java.io.Serializable;
 public class FutureMeetingImpl extends MeetingImpl implements FutureMeeting {
 // No methods here, this is just a naming interface
 // (i.e. only necessary for type checking and/or downcasting)
+/**
+* Constructor
+* @see MeetingImpl#MeetingImpl(int, Calendar, Set<Contact>)
+*/
   public FutureMeetingImpl(int id, Calendar date, Set<Contact> contacts) {
     super(id, date, contacts);
   }

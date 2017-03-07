@@ -26,26 +26,31 @@ public class ContactTest {
     Contact contact2 = new ContactImpl(2, "George Clooney", "Likes Coffee");
     assertEquals("George Clooney", contact2.getName());
   }
+  // Test contacts with bad names
   @Test(expected = NullPointerException.class)
   public void testBadName() {
     Contact badC = new ContactImpl(3, null);
     Contact bad2 = new ContactImpl(4, null, "International Man of Mystery");
   }
+  // Test getting notes from contact
   @Test
   public void testNotes() {
     Contact cWithNotes = new ContactImpl(5, "Deirdre", "I have notes");
     assertEquals("I have notes", cWithNotes.getNotes());
   }
+  // Test adding contacts with no notes
   @Test(expected = NullPointerException.class)
   public void testBadNotes() {
     Contact badNotes = new ContactImpl(6, "Sadly no notes", null);
   }
+  // Test checking a contact's notes
   @Test
   public void checkNotes() {
     Contact withNotes = new ContactImpl(7, "Bella");
     withNotes.addNotes("Pitch Perfect");
     assertEquals("Pitch Perfect", withNotes.getNotes());
   }
+  // Test to check the hash function works
   @Test
   public void checkHash() {
     Contact contact = new ContactImpl(1, "Steve");
@@ -54,6 +59,7 @@ public class ContactTest {
     Contact steve = new ContactImpl(1, "Steve");
     assertEquals(contact.hashCode(), steve.hashCode());
   }
+  // Test to check the contains override works
   @Test
   public void checkEquals() {
     Contact contact = new ContactImpl(1, "Steve");

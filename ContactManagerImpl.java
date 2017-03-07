@@ -13,14 +13,28 @@ import java.io.*;
 * Citations used:
 * 1. For method reference implementation of Comparator
 * http://stackoverflow.com/questions/2784514/sort-arraylist-of-custom-objects-by-property
-* 2. For implementation of hash code
-* Josh Bloch's Effective Java
 * @author kathryn.buckley
+*
 */
 public class ContactManagerImpl implements ContactManager, Serializable {
+  /**
+  * Holds today's date for use in comparisons
+  */
   private final Calendar today;
+  /**
+  * A list of all the meetings held in this Contact Manager
+  */
   private List<Meeting> meetings;
+  /**
+  * A set of all the contacts held in this Contact Manager
+  */
   private Set<Contact> contacts;
+  /**
+  * An enum of different object types used to identify objects being read in and out
+  */
+  private static enum ObjectTypes {
+    PASTMEETING, FUTUREMEETING, CONTACT
+  }
 /**
 * Constructor reads in information from contacts.txt
 * @throws FileNotFoundException when the input file can't be found
@@ -46,10 +60,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
           while (ois.available() > 0) {
             int objectType = ois.read();
             Object readIn = ois.readObject();
-            if (objectType == 1) {
+            if (objectType == ObjectTypes.PASTMEETING.ordinal()) {
               PastMeeting pastMeeting = (PastMeeting)readIn;
               this.meetings.add(pastMeeting);
-            } else if (objectType == 2) {
+            } else if (objectType == ObjectTypes.FUTUREMEETING.ordinal()) {
               FutureMeeting meeting = (FutureMeeting)readIn;
               if (meeting.getDate().compareTo(today) < 0) {
                 PastMeeting newPastMeeting = new PastMeetingImpl(meeting.getId(), meeting.getDate(), meeting.getContacts(), "Meeting date has passed");
@@ -57,7 +71,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
               } else {
                 this.meetings.add(meeting);
               }
-            } else if (objectType == 3) {
+            } else if (objectType == ObjectTypes.CONTACT.ordinal()) {
               Contact contact = (Contact)readIn;
               this.contacts.add(contact);
             }
@@ -108,17 +122,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     }
   }
   /**
-  * Add a new meeting to be held in the future.
-  *
-  * An ID is returned when the meeting is put into the system. This
-  * ID must be positive and non-zero.
-  *
-  * @param contacts a set of contacts that will participate in the meeting
-  * @param date the date on which the meeting will take place
-  * @return the ID for the meeting
-  * @throws IllegalArgumentException if the meeting is set for a time
-  * in the past, of if any contact is unknown / non-existent.
-  * @throws NullPointerException if the meeting or the date are null
+  * {@inheritDoc}
   */
   public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
     if (date == null || contacts == null) {
@@ -141,14 +145,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return meetingId;
   }
   /**
-  * Returns the PAST meeting with the requested ID, or null if it there is none.
-  *
-  * The meeting must have happened at a past date.
-  *
-  * @param id the ID for the meeting
-  * @return the meeting with the requested ID, or null if it there is none.
-  * @throws IllegalStateException if there is a meeting with that ID happening
-  * in the future
+  * {@inheritDoc}
   */
   public PastMeeting getPastMeeting(int id) {
     PastMeeting pastMeeting;
@@ -165,13 +162,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return pastMeeting;
   }
   /**
-  * Returns the FUTURE meeting with the requested ID, or null if there is none.
-  *
-  * @param id the ID for the meeting
-  * @return the meeting with the requested ID, or null if it there is none.
-  2
-  * @throws IllegalStateException if there is a meeting with that ID happening
-  * in the past
+  * {@inheritDoc}
   */
   public FutureMeeting getFutureMeeting(int id) {
     FutureMeeting futureMeeting;
@@ -188,10 +179,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return futureMeeting;
   }
   /**
-  * Returns the meeting with the requested ID, or null if it there is none.
-  *
-  * @param id the ID for the meeting
-  * @return the meeting with the requested ID, or null if it there is none.
+  * {@inheritDoc}
   */
   public Meeting getMeeting(int id) {
     Meeting returnMeeting;
@@ -203,16 +191,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return returnMeeting;
   }
   /**
-  * Returns the list of future meetings scheduled with this contact.
-  *
-  * If there are none, the returned list will be empty. Otherwise,
-  * the list will be chronologically sorted and will not contain any
-  * duplicates.
-  *
-  * @param contact one of the users contacts
-  * @return the list of future meeting(s) scheduled with this contact (maybe empty).
-  * @throws IllegalArgumentException if the contact does not exist
-  * @throws NullPointerException if the contact is null
+  * {@inheritDoc}
   */
   public List<Meeting> getFutureMeetingList(Contact contact) {
     if (contact == null) {
@@ -231,21 +210,12 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         returnMeetings.add(current);
       }
     }
-    //make sure sort works
+    // sort meetings in date order
     returnMeetings.sort(Comparator.comparing(Meeting::getDate));
     return returnMeetings;
   }
   /**
-  * Returns the list of meetings that are scheduled for, or that took
-  * place on, the specified date
-  *
-  * If there are none, the returned list will be empty. Otherwise,
-  * the list will be chronologically sorted and will not contain any
-  * duplicates.
-  *
-  * @param date the date
-  * @return the list of meetings
-  * @throws NullPointerException if the date are null
+  * {@inheritDoc}
   */
   public List<Meeting> getMeetingListOn(Calendar date) {
     if (date == null) {
@@ -261,21 +231,12 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         meetings.add(current);
       }
     }
-    //Make sure sort works
+    // sort meetings in date order
     meetings.sort(Comparator.comparing(Meeting::getDate));
     return meetings;
   }
   /**
-  * Returns the list of past meetings in which this contact has participated.
-  *
-  * If there are none, the returned list will be empty. Otherwise,
-  * the list will be chronologically sorted and will not contain any
-  * duplicates.
-  *
-  * @param contact one of the users contacts
-  * @return the list of future meeting(s) scheduled with this contact (maybe empty). ?? Should be past?
-  * @throws IllegalArgumentException if the contact does not exist
-  * @throws NullPointerException if the contact is null
+  * {@inheritDoc}
   */
   public List<PastMeeting> getPastMeetingListFor(Contact contact) {
     if (contact == null) {
@@ -295,20 +256,12 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         }
       }
     }
+    // sort meetings in date order
     pastMeetings.sort(Comparator.comparing(Meeting::getDate));
     return pastMeetings;
   }
   /**
-  * Create a new record for a meeting that took place in the past.
-  *
-  * @param contacts a set of participants
-  * @param date the date on which the meeting took place
-  * @param text messages to be added about the meeting.
-  * @return the ID for the meeting
-  * @throws IllegalArgumentException if the list of contacts is
-  * empty, if any of the contacts does not exist, or if
-  * the date provided is in the future
-  * @throws NullPointerException if any of the arguments is null
+  * {@inheritDoc}
   */
   public int addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
     if (contacts == null || date == null || text == null) {
@@ -334,18 +287,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return meetingId;
   }
   /**
-  * Add notes to a meeting.
-  *
-  * This method is used when a future meeting takes place, and is
-  * then converted to a past meeting (with notes) and returned.
-  *
-  * It can be also used to add notes to a past meeting at a later date.
-  *
-  * @param id the ID of the meeting
-  * @param text messages to be added about the meeting.
-  * @throws IllegalArgumentException if the meeting does not exist
-  * @throws IllegalStateException if the meeting is set for a date in the future
-  * @throws NullPointerException if the notes are null
+  * {@inheritDoc}
   */
   public PastMeeting addMeetingNotes(int id, String text) {
     if (text == null) {
@@ -372,13 +314,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return meeting;
   }
   /**
-  * Create a new contact with the specified name and notes.
-  *
-  * @param name the name of the contact.
-  * @param notes notes to be added about the contact.
-  * @return the ID for the new contact
-  * @throws IllegalArgumentException if the name or the notes are empty strings
-  * @throws NullPointerException if the name or the notes are null
+  * {@inheritDoc}
   */
   public int addNewContact(String name, String notes) {
     if (name == null || notes == null) {
@@ -393,14 +329,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return contactId;
   }
   /**
-  * Returns a set with the contacts whose name contains that string.
-  *
-  * If the string is the empty string, this methods returns the set
-  * that contains all current contacts.
-  *
-  * @param name the string to search for
-  * @return a set with the contacts whose name contains that string.
-  * @throws NullPointerException if the parameter is null
+  * {@inheritDoc}
   */
   public Set<Contact> getContacts(String name) {
     if (name == null) {
@@ -417,13 +346,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return returnContacts;
   }
   /**
-  * Returns a set containing the contacts that correspond to the IDs.
-  * Note that this method can be used to retrieve just one contact by passing only one ID.
-  *
-  * @param ids an arbitrary number of contact IDs
-  * @return a set containing the contacts that correspond to the IDs.
-  * @throws IllegalArgumentException if no IDs are provided or if
-  * any of the provided IDs does not correspond to a real contact
+  * {@inheritDoc}
   */
   public Set<Contact> getContacts(int... ids) {
     int noIds = ids.length;
@@ -460,12 +383,8 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     result.set(Calendar.MILLISECOND, 0);
     return result;
   }
-
   /**
-  * Save all data to disk.
-  *
-  * This method must be executed when the program is
-  * closed and when/if the user requests it.
+  * {@inheritDoc}
   */
   public void flush() {
     FileOutputStream output = null;
@@ -477,16 +396,16 @@ public class ContactManagerImpl implements ContactManager, Serializable {
       while (meetingIterator.hasNext()) {
         Meeting meeting = meetingIterator.next();
         if (meeting instanceof PastMeeting) {
-          oos.write(1);
+          oos.write(ObjectTypes.PASTMEETING.ordinal());
         } else if (meeting instanceof FutureMeeting) {
-          oos.write(2);
+          oos.write(ObjectTypes.FUTUREMEETING.ordinal());
         }
         oos.writeObject(meeting);
       }
       Iterator<Contact> contactIterator = this.contacts.iterator();
       while (contactIterator.hasNext()) {
         Contact contact = contactIterator.next();
-        oos.write(3);
+        oos.write(ObjectTypes.CONTACT.ordinal());
         oos.writeObject(contact);
       }
       oos.flush();

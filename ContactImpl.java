@@ -5,13 +5,25 @@ import java.io.Serializable;
 * Contacts have an ID (unique, a non-zero positive integer),
 * a name (not necessarily unique), and notes that the user
 * may want to save about them.
+* Citations used:
+* 1. For implementation of hash code
+* Josh Bloch's Effective Java
 * @author kathryn.buckley
 */
 public class ContactImpl implements Contact, Serializable {
+  /**
+  * The ID of the contact
+  */
   private final int id;
+  /**
+  * The contact name
+  */
   private final String name;
+  /**
+  * Notes about this contact
+  */
   private String notes;
-  /*Constructor taking three arguments
+  /** Constructor taking three arguments
   * @param int id
   * @param String name
   * @param String notes
@@ -32,11 +44,9 @@ public class ContactImpl implements Contact, Serializable {
     this.name = name;
     this.notes = notes;
   }
-  /*Constructor taking two arguments
-  * @param int id
-  * @param String name
-  * @throws IllegalArgumentException if id < 1
-  * @throws NullPointerException if either string params are null
+  /** Constructor taking two arguments, used when a contact has no notes
+  * {@code} notes defaults to null
+  * @see #ContactImpl(int, String, String)
   */
   public ContactImpl(int id, String name) {
     if (name == null) {
@@ -49,42 +59,31 @@ public class ContactImpl implements Contact, Serializable {
     this.name = name;
   }
   /**
-  * Returns the ID of the contact.
-  *
-  * @return the ID of the contact.
+  * {@inheritDoc}
   */
   public int getId() {
     return this.id;
   }
   /**
-  * Returns the name of the contact.
-  *
-  * @return the name of the contact.
+  * {@inheritDoc}
   */
   public String getName() {
     return this.name;
   }
   /**
-  * Returns our notes about the contact, if any.
-  *
-  * If we have not written anything about the contact, the empty
-  * string is returned.
-  *
-  * @return a string with notes about the contact, maybe empty.
+  * {@inheritDoc}
   */
   public String getNotes() {
     return this.notes;
   }
   /**
-  * Add notes about the contact.
-  *
-  * @param note the notes to be added
+  * {@inheritDoc}
   */
   public void addNotes(String note) {
     this.notes = note;
   }
   /**
-  * A method to override hashCode and facilitate comparison (maybe use apache library here)
+  * A method to override hashCode and facilitate comparison
   * @return an int, which is a unique hash code for the id/name combination
   */
   @Override
@@ -102,6 +101,6 @@ public class ContactImpl implements Contact, Serializable {
   */
   @Override
   public boolean equals(Object contact) {
-    return (this.hashCode() == contact.hashCode()) ? true : false;
+    return (this.hashCode() == contact.hashCode());
   }
 }
