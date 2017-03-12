@@ -10,7 +10,7 @@ public class MeetingTest {
   Calendar nextXmas;
   PastMeeting testMeeting;
   FutureMeeting testFutureMeeting;
-  @Before
+  @BeforeClass
   public void buildup() {
     meetingContacts = new HashSet<Contact>();
     Contact one = new ContactImpl(1, "Steve");
@@ -30,7 +30,7 @@ public class MeetingTest {
   public void testsPMConstructor() {
     String notes = "Some random notes";
     Calendar date = Calendar.getInstance();
-    date.set(2016, 12, 25);
+    date.set(2016, 11, 25);
     Set<Contact> contacts = new HashSet<Contact>();
     PastMeeting oldMeeting = new PastMeetingImpl(1, date, contacts, notes);
   }
@@ -69,7 +69,7 @@ public class MeetingTest {
   @Test(expected = IllegalArgumentException.class)
   public void testsFMConstructor() {
     Calendar date = Calendar.getInstance();
-    date.set(2017, 12, 25);
+    date.set(2017, 11, 25);
     Set<Contact> contacts = new HashSet<Contact>();
     FutureMeeting newMeeting = new FutureMeetingImpl(1, date, contacts);
   }

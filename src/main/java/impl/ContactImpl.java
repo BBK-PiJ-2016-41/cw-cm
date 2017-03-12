@@ -1,3 +1,5 @@
+package main.java.impl;
+import main.java.spec;
 import java.io.Serializable;
 /**
 * A contact is a person we are making business with or may do in the future.
@@ -7,26 +9,30 @@ import java.io.Serializable;
 * may want to save about them.
 * Citations used:
 * 1. For implementation of hash code
-* Josh Bloch's Effective Java
+* Joshua Bloch, Effective Java 2nd Edition, p 48
 * @author kathryn.buckley
 */
-public class ContactImpl implements Contact, Serializable {
+private class ContactImpl implements Contact, Serializable {
   /**
-  * The ID of the contact
+  * The ID of the contact.
   */
   private final int id;
   /**
-  * The contact name
+  * The contact name.
   */
   private final String name;
   /**
-  * Notes about this contact
+  * Notes about this contact.
   */
   private String notes;
-  /** Constructor taking three arguments
-  * @param int id
-  * @param String name
-  * @param String notes
+  /**
+  * serial version UID.
+  */
+  private static final long serialVersionUID = 1L;
+  /** Constructor taking three arguments.
+  * @param id - the contact ID
+  * @param name - the contact name
+  * @param notes - notes about the contact
   * @throws IllegalArgumentException if id < 1
   * @throws NullPointerException if either string params are null
   */
@@ -38,13 +44,13 @@ public class ContactImpl implements Contact, Serializable {
       throw new NullPointerException("Notes cannot be null.");
     }
     if (id < 1) {
-      throw new IllegalArgumentException("ID must be a non zero positive integer.");
+      throw new IllegalArgumentException("ID must be a positive integer.");
     }
     this.id = id;
     this.name = name;
     this.notes = notes;
   }
-  /** Constructor taking two arguments, used when a contact has no notes
+  /** Constructor taking two arguments, used when a contact has no notes.
   * {@code} notes defaults to null
   * @see #ContactImpl(int, String, String)
   */
@@ -53,7 +59,7 @@ public class ContactImpl implements Contact, Serializable {
       throw new NullPointerException("Name cannot be null.");
     }
     if (id < 1) {
-      throw new IllegalArgumentException("ID must be a non zero positive integer.");
+      throw new IllegalArgumentException("ID must be a positive integer.");
     }
     this.id = id;
     this.name = name;
@@ -95,7 +101,7 @@ public class ContactImpl implements Contact, Serializable {
     return hash;
   }
   /**
-  * A method to override equals and facilitate comparison
+  * A method to override equals and facilitate comparison.
   * @param contact the contact to compare with this contact
   * @return a boolean depending on whether the two objects are equal
   */

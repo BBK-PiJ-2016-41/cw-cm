@@ -1,3 +1,5 @@
+package impl;
+import spec;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
@@ -10,42 +12,45 @@ import java.util.Arrays;
 import java.io.*;
 /**
 * A class to manage your contacts and meetings.
-* Citations used:
-* 1. For method reference implementation of Comparator
-* http://stackoverflow.com/questions/2784514/sort-arraylist-of-custom-objects-by-property
+* Citations used: For method reference implementation of Comparator.
+* http://stackoverflow.com/questions/2784514/sort-arraylist-of-custom-objects-by-property.
 * @author kathryn.buckley
-*
 */
 public class ContactManagerImpl implements ContactManager, Serializable {
   /**
-  * Holds today's date for use in comparisons
+  * Holds today's date for use in comparisons.
   */
-  private final Calendar today;
+  private final Calendar TODAY = Calendar.getInstance();;
   /**
-  * A list of all the meetings held in this Contact Manager
+  * A list of all the meetings held in this Contact Manager.
   */
-  private List<Meeting> meetings;
+  private final List<Meeting> meetings;
   /**
-  * A set of all the contacts held in this Contact Manager
+  * A set of all the contacts held in this Contact Manager.
   */
-  private Set<Contact> contacts;
+  private final Set<Contact> contacts;
   /**
-  * An enum of different object types used to identify objects being read in and out
+  * An enum of different object types used to
+  * identify objects being read in and out.
   */
-  private static enum ObjectTypes {
+  private enum ObjectTypes {
     PASTMEETING, FUTUREMEETING, CONTACT
   }
-/**
-* Constructor reads in information from contacts.txt
-* @throws FileNotFoundException when the input file can't be found
-* @throws EOFException when the file is empty
-* @throws IOException when there is an error reading in from the file
-* @throws SecurityException if the user does not have correct access
-* @throws NullPointerException if the input file is null
-* @throws ClassNotFoundException if an object read in cannot be found
-*/
+  /**
+  * serial version UID.
+  */
+  private static final long serialVersionUID = 1L;
+  /**
+  * Constructor reads in information from contacts.txt.
+  * @throws FileNotFoundException when the input file can't be found.
+  * @throws EOFException when the file is empty.
+  * @throws IOException when there is an error reading in from the
+  * file.
+  * @throws SecurityException if the user does not have correct access.
+  * @throws NullPointerException if the input file is null.
+  * @throws ClassNotFoundException if an object read in cannot be found.
+  */
   public ContactManagerImpl() {
-    this.today = Calendar.getInstance();
     this.meetings = new ArrayList<Meeting>();
     this.contacts = new HashSet<Contact>();
     String filename = "contacts.txt";
@@ -61,18 +66,18 @@ public class ContactManagerImpl implements ContactManager, Serializable {
             int objectType = ois.read();
             Object readIn = ois.readObject();
             if (objectType == ObjectTypes.PASTMEETING.ordinal()) {
-              PastMeeting pastMeeting = (PastMeeting)readIn;
+              PastMeeting pastMeeting = (PastMeeting) readIn;
               this.meetings.add(pastMeeting);
             } else if (objectType == ObjectTypes.FUTUREMEETING.ordinal()) {
-              FutureMeeting meeting = (FutureMeeting)readIn;
-              if (meeting.getDate().compareTo(today) < 0) {
+              FutureMeeting meeting = (FutureMeeting) readIn;
+              if (meeting.getDate().compareTo(this.TODAY) < 0) {
                 PastMeeting newPastMeeting = new PastMeetingImpl(meeting.getId(), meeting.getDate(), meeting.getContacts(), "Meeting date has passed");
                 this.meetings.add(newPastMeeting);
               } else {
                 this.meetings.add(meeting);
               }
             } else if (objectType == ObjectTypes.CONTACT.ordinal()) {
-              Contact contact = (Contact)readIn;
+              Contact contact = (Contact) readIn;
               this.contacts.add(contact);
             }
           }
@@ -114,8 +119,11 @@ public class ContactManagerImpl implements ContactManager, Serializable {
       this.meetings.sort(Comparator.comparing(Meeting::getId));
     } else {
       try {
-        file.createNewFile();
-      } catch (IOException ex){
+        boolean created = file.createNewFile();
+        if (!created) {
+          System.out.println("Unable to create contacts file");
+        }
+      } catch (IOException ex) {
         ex.printStackTrace();
         System.out.println("Unable to create file");
       }
@@ -128,13 +136,13 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     if (date == null || contacts == null) {
       throw new NullPointerException("Arguments cannot be null");
     }
-    if (date.compareTo(this.today) < 0) {
+    if (date.compareTo(TODAY) < 0) {
       throw new IllegalArgumentException("Meeting cannot be in the past");
     }
     Iterator<Contact> contactIterator = contacts.iterator();
     while (contactIterator.hasNext()) {
       Contact contact = contactIterator.next();
-      if (!(this.contacts.contains(contact))) {
+      if (!(contacts.contains(contact))) {
         throw new IllegalArgumentException("Contact not recognised");
       }
     }
@@ -148,15 +156,15 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * {@inheritDoc}
   */
   public PastMeeting getPastMeeting(int id) {
-    PastMeeting pastMeeting;
+    PastMeeting pastMeeting = null;
     try {
-      pastMeeting = (PastMeeting)this.meetings.get(id);
+      pastMeeting = (PastMeeting) this.meetings.get(id);
     } catch (IndexOutOfBoundsException ex) {
-      return null;
+      ex.printStackTrace();
     } catch (ClassCastException ex) {
       throw new IllegalStateException("Meeting is in the future");
     }
-    if (pastMeeting.getDate().compareTo(this.today) > 0) {
+    if (pastMeeting.getDate().compareTo(TODAY) > 0) {
       throw new IllegalStateException("Meeting is in the future");
     }
     return pastMeeting;
@@ -165,15 +173,15 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * {@inheritDoc}
   */
   public FutureMeeting getFutureMeeting(int id) {
-    FutureMeeting futureMeeting;
+    FutureMeeting futureMeeting = null;
     try {
-      futureMeeting = (FutureMeeting)this.meetings.get(id);
+      futureMeeting = (FutureMeeting) this.meetings.get(id);
     } catch (IndexOutOfBoundsException ex) {
-      return null;
+      ex.printStackTrace();
     } catch (ClassCastException ex) {
       throw new IllegalStateException("Meeting is in the past");
     }
-    if (futureMeeting.getDate().compareTo(this.today) < 0) {
+    if (futureMeeting.getDate().compareTo(TODAY) < 0) {
       throw new IllegalStateException("Meeting is in the past");
     }
     return futureMeeting;
@@ -182,11 +190,11 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * {@inheritDoc}
   */
   public Meeting getMeeting(int id) {
-    Meeting returnMeeting;
+    Meeting returnMeeting = null;
     try {
       returnMeeting = this.meetings.get(id);
     } catch (IndexOutOfBoundsException ex) {
-      return null;
+      ex.printStackTrace();
     }
     return returnMeeting;
   }
@@ -206,7 +214,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
       Meeting current = meetingIterator.next();
       Set<Contact> meetingContacts = current.getContacts();
       Calendar meetingDate = current.getDate();
-      if (meetingContacts.contains(contact) && meetingDate.compareTo(this.today) > 0 && (!returnMeetings.contains(current))) {
+      if (meetingContacts.contains(contact) && meetingDate.compareTo(TODAY) > 0 && (!returnMeetings.contains(current))) {
         returnMeetings.add(current);
       }
     }
@@ -221,13 +229,13 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     if (date == null) {
       throw new NullPointerException("Date cannot be null");
     }
-    date = this.setZeroTime(date);
+    Calendar zeroDate = this.setZeroTime(date);
     List<Meeting> meetings = new ArrayList<Meeting>();
     Iterator<Meeting> meetingIterator = this.meetings.iterator();
     while (meetingIterator.hasNext()) {
       Meeting current = meetingIterator.next();
       Calendar currentDate = this.setZeroTime(current.getDate());
-      if (currentDate.compareTo(date) == 0 && (!meetings.contains(current))) {
+      if (currentDate.compareTo(zeroDate) == 0 && (!meetings.contains(current))) {
         meetings.add(current);
       }
     }
@@ -252,7 +260,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
       if (current instanceof PastMeeting) {
         Set<Contact> contacts = current.getContacts();
         if (contacts.contains(contact) && (!pastMeetings.contains(current))) {
-          pastMeetings.add((PastMeeting)current);
+          pastMeetings.add((PastMeeting) current);
         }
       }
     }
@@ -277,7 +285,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         throw new IllegalArgumentException("One or more contacts does not exist");
       }
     }
-    if (date.compareTo(this.today) > 0) {
+    if (date.compareTo(TODAY) > 0) {
       throw new IllegalArgumentException("Date must be in the past");
     }
     int meetingId = this.meetings.size();
@@ -295,7 +303,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     }
     PastMeetingImpl meeting;
     try {
-      meeting = (PastMeetingImpl)this.meetings.get(id);
+      meeting = (PastMeetingImpl) this.meetings.get(id);
     } catch (IndexOutOfBoundsException ex) {
       throw new IllegalArgumentException("Meeting does not exist");
     } catch (ClassCastException ex) {
@@ -304,11 +312,11 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     if (meeting == null) {
       throw new IllegalArgumentException("Meeting does not exist");
     }
-    if (this.today.compareTo(meeting.getDate()) < 0) {
+    if (TODAY.compareTo(meeting.getDate()) < 0) {
       throw new IllegalStateException("Meeting is set for a date in the future");
     }
     String existingNotes = meeting.getNotes();
-    String newNotes = existingNotes + " " + text;
+    String newNotes = existingNotes + "; " + text;
     meeting.setNotes(newNotes);
     this.flush();
     return meeting;
@@ -320,7 +328,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     if (name == null || notes == null) {
       throw new NullPointerException("Arguments cannot be null");
     }
-    if (name.equals("") || notes.equals("")) {
+    if ("".equals(name) || "".equals(notes)) {
       throw new IllegalArgumentException("Arguments cannot be empty");
     }
     int contactId = this.contacts.size() + 1;
@@ -352,7 +360,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     int noIds = ids.length;
     Integer[] complexIds = new Integer[noIds];
     for (int i = 0; i < noIds; i++) {
-      complexIds[i] = (Integer)ids[i];
+      complexIds[i] = (Integer) ids[i];
     }
     if (noIds == 0) {
       throw new IllegalArgumentException("Please provide some IDs");
@@ -371,7 +379,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return returnContacts;
   }
   /**
-  * Sets the time of a Date object to zero for comparison purposes
+  * Sets the time of a Date object to zero for comparison purposes.
   * @param date an instance of Calendar that needs modifying
   * @return the date modified to contain no timestamps
   */
@@ -423,8 +431,12 @@ public class ContactManagerImpl implements ContactManager, Serializable {
       System.out.println("Output file cannot be null");
     } finally {
       try {
-        oos.close();
-        output.close();
+        if (oos != null) {
+          oos.close();
+        }
+        if (output != null) {
+          output.close();
+        }
       } catch (IOException ex) {
         ex.printStackTrace();
         System.out.println("I/O exception closing file");

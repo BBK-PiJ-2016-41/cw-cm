@@ -1,7 +1,7 @@
+package impl;
+import spec.*;
 import java.util.Set;
-import java.util.HashSet;
 import java.util.Calendar;
-import java.io.Serializable;
 
 /**
 * A meeting that was held in the past.
@@ -9,10 +9,15 @@ import java.io.Serializable;
 * It includes your notes about what happened and what was agreed.
 * @author kathryn.buckley
 */
-public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
+private class PastMeetingImpl extends MeetingImpl implements PastMeeting {
+  /**
+  * serial version UID.
+  */
+  private static final long serialVersionUID = 1L;
   /**
   * @see MeetingImpl#MeetingImpl(int, Calendar, Set<Contact>)
-  * @param String notes - some notes about the meeting, as it has already occured
+  * @param notes - some notes about the meeting,
+  * as it has already occured
   * @throws NullPointerException if the param notes is null
   */
   public PastMeetingImpl(int id, Calendar date, Set<Contact> contacts, String notes) {

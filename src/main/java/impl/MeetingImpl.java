@@ -1,44 +1,50 @@
+package impl;
+import spec.*;
 import java.util.Calendar;
 import java.util.Set;
-import java.util.HashSet;
 import java.io.Serializable;
 /**
-* A class to represent meetings
+* A class to represent meetings.
 *
 * Meetings have unique IDs, scheduled date and a list of participating contacts
 * @author kathryn.buckley
 */
-public abstract class MeetingImpl implements Meeting, Serializable {
+private abstract class MeetingImpl implements Meeting, Serializable {
   /**
-  * The ID of the meeting
+  * The ID of the meeting.
   */
   protected int id;
   /**
-  * The date of the meeting
+  * The date of the meeting.
   */
   protected Calendar date;
   /**
-  * The contacts attending the meeting
+  * The contacts attending the meeting.
   */
   protected Set<Contact> contacts;
   /**
-  * Notes about the meeting
+  * Notes about the meeting.
   */
   protected String notes;
   /**
-  * Constructor takes an int to denote meeting ID, the date of the meeting, and a set of contacts attending
-  * @param int id, the ID of the meeting
-  * @param Calendar date, the date of the meeting
-  * @param Set<Contact> contacts, the contacts who are attending the meeting
+  * serial version UID.
+  */
+  private static final long serialVersionUID = 1L;
+  /**
+  * Constructor takes an int to denote meeting ID, the date of the meeting,
+  * and a set of contacts attending.
+  * @param id - the ID of the meeting
+  * @param date - the date of the meeting
+  * @param contacts - the contacts who are attending the meeting
   * @throws IllegalArgumentException if the set of contacts is empty
   * @throws NullPointerException if any of the parameters are null
   */
   public MeetingImpl(int id, Calendar date, Set<Contact> contacts) {
-    if (contacts.isEmpty()) {
-      throw new IllegalArgumentException("Set of contacts cannot be empty.");
-    }
     if (id < 0 || date == null || contacts == null) {
       throw new NullPointerException("No null parameters accepted.");
+    }
+    if (contacts.isEmpty()) {
+      throw new IllegalArgumentException("Set of contacts cannot be empty.");
     }
     this.id = id;
     this.date = date;
