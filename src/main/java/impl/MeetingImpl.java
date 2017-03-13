@@ -1,5 +1,5 @@
 package impl;
-import spec.*;
+import spec.Meeting;
 import java.util.Calendar;
 import java.util.Set;
 import java.io.Serializable;

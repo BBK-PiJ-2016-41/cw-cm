@@ -1,3 +1,5 @@
+package test;
+import impl.Contact;
 import org.junit.*;
 import static org.junit.Assert.*;
 

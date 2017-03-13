@@ -1,5 +1,6 @@
 package impl;
-import spec.*;
+import spec.Meeting;
+import spec.FutureMeeting;
 import java.util.Set;
 import java.util.Calendar;
 /**

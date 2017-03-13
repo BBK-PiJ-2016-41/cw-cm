@@ -1,5 +1,9 @@
 package impl;
-import spec;
+import spec.Contact;
+import spec.ContactManager;
+import spec.Meeting;
+import spec.FutureMeeting;
+import spec.PastMeeting;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;

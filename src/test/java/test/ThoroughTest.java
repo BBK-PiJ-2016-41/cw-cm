@@ -1,3 +1,9 @@
+package test;
+import impl.ContactManager;
+import impl.Meeting;
+import impl.PastMeeting;
+import impl.FutureMeeting;
+import impl.Contact;
 import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.Calendar;

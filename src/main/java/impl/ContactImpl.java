@@ -1,5 +1,5 @@
-package main.java.impl;
-import main.java.spec;
+package impl;
+import spec.Contact;
 import java.io.Serializable;
 /**
 * A contact is a person we are making business with or may do in the future.

@@ -1,3 +1,7 @@
+package test;
+import impl.Meeting;
+import impl.PastMeeting;
+import impl.FutureMeeting;
 import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.Set;
