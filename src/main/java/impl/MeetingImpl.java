@@ -1,5 +1,8 @@
 package impl;
 
+import impl.ContactImpl;
+import impl.MeetingImpl;
+
 import spec.Contact;
 import spec.Meeting;
 

@@ -1,7 +1,17 @@
 package test;
-import impl.Meeting;
-import impl.PastMeeting;
-import impl.FutureMeeting;
+
+import impl.ContactManagerImpl;
+import impl.MeetingImpl;
+import impl.FutureMeetingImpl;
+import impl.ContactImpl;
+import impl.PastMeetingImpl;
+
+import spec.ContactManager;
+import spec.Meeting;
+import spec.PastMeeting;
+import spec.FutureMeeting;
+import spec.Contact;
+
 import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.Set;

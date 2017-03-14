@@ -1,3 +1,16 @@
+package test;
+
+import impl.ContactManagerImpl;
+import impl.MeetingImpl;
+import impl.FutureMeetingImpl;
+import impl.ContactImpl;
+import impl.PastMeetingImpl;
+
+import spec.ContactManager;
+import spec.Meeting;
+import spec.PastMeeting;
+import spec.FutureMeeting;
+import spec.Contact;
 
 import java.util.Set;
 import java.util.HashSet;

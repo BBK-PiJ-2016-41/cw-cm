@@ -1,8 +1,13 @@
 package impl;
 
+import impl.MeetingImpl;
+import impl.ContactImpl;
+import impl.FutureMeetingImpl;
+
 import spec.Meeting;
 import spec.Contact;
 import spec.FutureMeeting;
+
 import java.util.Set;
 import java.util.Calendar;
 
