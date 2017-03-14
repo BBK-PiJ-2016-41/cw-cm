@@ -1,4 +1,5 @@
 package impl;
+
 import spec.Contact;
 import spec.ContactManager;
 import spec.Meeting;
@@ -14,10 +15,12 @@ import java.util.Iterator;
 import java.util.Comparator;
 import java.util.Arrays;
 import java.io.*;
+
 /**
 * A class to manage your contacts and meetings.
 * Citations used: For method reference implementation of Comparator.
 * http://stackoverflow.com/questions/2784514/sort-arraylist-of-custom-objects-by-property.
+
 * @author kathryn.buckley
 */
 public class ContactManagerImpl implements ContactManager, Serializable {

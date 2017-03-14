@@ -1,6 +1,9 @@
 package impl;
-import spec.PastMeeting;
+
+import spec.Contact;
 import spec.Meeting;
+import spec.PastMeeting;
+
 import java.util.Set;
 import java.util.Calendar;
 
@@ -8,9 +11,10 @@ import java.util.Calendar;
 * A meeting that was held in the past.
 *
 * It includes your notes about what happened and what was agreed.
+*
 * @author kathryn.buckley
 */
-private class PastMeetingImpl extends MeetingImpl implements PastMeeting {
+public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
   /**
   * serial version UID.
   */

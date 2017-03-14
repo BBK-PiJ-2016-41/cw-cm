@@ -1,15 +1,20 @@
 package impl;
+
+import spec.Contact;
 import spec.Meeting;
+
 import java.util.Calendar;
 import java.util.Set;
 import java.io.Serializable;
+
 /**
 * A class to represent meetings.
 *
 * Meetings have unique IDs, scheduled date and a list of participating contacts
 * @author kathryn.buckley
 */
-private abstract class MeetingImpl implements Meeting, Serializable {
+
+public abstract class MeetingImpl implements Meeting, Serializable {
   /**
   * The ID of the meeting.
   */

@@ -1,18 +1,20 @@
 package impl;
+
 import spec.Contact;
 import java.io.Serializable;
 /**
 * A contact is a person we are making business with or may do in the future.
 *
-* Contacts have an ID (unique, a non-zero positive integer),
+* <p>Contacts have an ID (unique, a non-zero positive integer),
 * a name (not necessarily unique), and notes that the user
 * may want to save about them.
 * Citations used:
 * 1. For implementation of hash code
-* Joshua Bloch, Effective Java 2nd Edition, p 48
+* Joshua Bloch, Effective Java 2nd Edition, p 48</p>
+*
 * @author kathryn.buckley
 */
-private class ContactImpl implements Contact, Serializable {
+public class ContactImpl implements Contact, Serializable {
   /**
   * The ID of the contact.
   */
