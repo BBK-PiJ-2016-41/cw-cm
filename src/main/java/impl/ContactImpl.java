@@ -1,9 +1,9 @@
 package impl;
 
 import impl.ContactImpl;
+import java.io.Serializable;
 import spec.Contact;
 
-import java.io.Serializable;
 /**
 * A contact is a person we are making business with or may do in the future.
 *
@@ -16,6 +16,7 @@ import java.io.Serializable;
 *
 * @author kathryn.buckley
 */
+
 public class ContactImpl implements Contact, Serializable {
   /**
   * The ID of the contact.
@@ -40,7 +41,8 @@ public class ContactImpl implements Contact, Serializable {
   * @throws IllegalArgumentException if id < 1
   * @throws NullPointerException if either string params are null
   */
-  public ContactImpl(int id, String name, String notes) {
+
+  public ContactImpl(final int id, final String name, final String notes) {
     if (name == null) {
       throw new NullPointerException("Name cannot be null.");
     }
@@ -58,7 +60,8 @@ public class ContactImpl implements Contact, Serializable {
   * {@code} notes defaults to null
   * @see #ContactImpl(int, String, String)
   */
-  public ContactImpl(int id, String name) {
+
+  public ContactImpl(final int id, final String name) {
     if (name == null) {
       throw new NullPointerException("Name cannot be null.");
     }
@@ -69,37 +72,42 @@ public class ContactImpl implements Contact, Serializable {
     this.name = name;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
+
   public int getId() {
     return this.id;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
+
   public String getName() {
     return this.name;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
+
   public String getNotes() {
     return this.notes;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
-  public void addNotes(String note) {
+
+  public void addNotes(final String note) {
     this.notes = note;
   }
   /**
-  * A method to override hashCode and facilitate comparison
+  * A method to override hashCode and facilitate comparison.
   * @return an int, which is a unique hash code for the id/name combination
   */
+
   @Override
   public int hashCode() {
     int hash = 29;
-    Integer id = (Integer)this.id;
+    Integer id = (Integer) this.id;
     hash = hash * 31 + id.hashCode();
     hash = hash * 31 + this.name.hashCode();
     return hash;
@@ -109,8 +117,9 @@ public class ContactImpl implements Contact, Serializable {
   * @param contact the contact to compare with this contact
   * @return a boolean depending on whether the two objects are equal
   */
+
   @Override
-  public boolean equals(Object contact) {
+  public boolean equals(final Object contact) {
     return (this.hashCode() == contact.hashCode());
   }
 }

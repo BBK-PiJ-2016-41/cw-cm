@@ -12,7 +12,6 @@ import java.io.Serializable;
 
 /**
 * A class to represent meetings.
-*
 * Meetings have unique IDs, scheduled date and a list of participating contacts
 * @author kathryn.buckley
 */
@@ -47,7 +46,8 @@ public abstract class MeetingImpl implements Meeting, Serializable {
   * @throws IllegalArgumentException if the set of contacts is empty
   * @throws NullPointerException if any of the parameters are null
   */
-  public MeetingImpl(int id, Calendar date, Set<Contact> contacts) {
+
+  public MeetingImpl(final int id, final Calendar date, final Set<Contact> contacts) {
     if (id < 0 || date == null || contacts == null) {
       throw new NullPointerException("No null parameters accepted.");
     }
@@ -59,20 +59,23 @@ public abstract class MeetingImpl implements Meeting, Serializable {
     this.contacts = contacts;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
+
   public int getId() {
     return id;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
+
   public Calendar getDate() {
     return date;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
+  
   public Set<Contact> getContacts() {
     return contacts;
   }

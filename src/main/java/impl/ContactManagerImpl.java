@@ -1,15 +1,15 @@
 package impl;
 
 import impl.ContactManagerImpl;
-import impl.MeetingImpl;
 import impl.FutureMeetingImpl;
 import impl.ContactImpl;
+import impl.MeetingImpl;
 import impl.PastMeetingImpl;
 
 import spec.ContactManager;
 import spec.Meeting;
-import spec.PastMeeting;
 import spec.FutureMeeting;
+import spec.PastMeeting;
 import spec.Contact;
 
 import java.util.Calendar;
@@ -34,7 +34,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   /**
   * Holds today's date for use in comparisons.
   */
-  private final Calendar TODAY = Calendar.getInstance();;
+  private final Calendar TODAY = Calendar.getInstance();
   /**
   * A list of all the meetings held in this Contact Manager.
   */
@@ -47,12 +47,14 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * An enum of different object types used to
   * identify objects being read in and out.
   */
+
   private enum ObjectTypes {
     PASTMEETING, FUTUREMEETING, CONTACT
   }
   /**
   * serial version UID.
   */
+
   private static final long serialVersionUID = 1L;
   /**
   * Constructor reads in information from contacts.txt.
@@ -64,6 +66,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * @throws NullPointerException if the input file is null.
   * @throws ClassNotFoundException if an object read in cannot be found.
   */
+
   public ContactManagerImpl() {
     this.meetings = new ArrayList<Meeting>();
     this.contacts = new HashSet<Contact>();
@@ -144,9 +147,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     }
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
-  public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
+
+  public int addFutureMeeting(final Set<Contact> contacts, final Calendar date) {
     if (date == null || contacts == null) {
       throw new NullPointerException("Arguments cannot be null");
     }
@@ -167,9 +171,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return meetingId;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
-  public PastMeeting getPastMeeting(int id) {
+
+  public PastMeeting getPastMeeting(final int id) {
     PastMeeting pastMeeting = null;
     try {
       pastMeeting = (PastMeeting) this.meetings.get(id);
@@ -184,9 +189,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return pastMeeting;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
-  public FutureMeeting getFutureMeeting(int id) {
+
+  public FutureMeeting getFutureMeeting(final int id) {
     FutureMeeting futureMeeting = null;
     try {
       futureMeeting = (FutureMeeting) this.meetings.get(id);
@@ -201,9 +207,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return futureMeeting;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
-  public Meeting getMeeting(int id) {
+
+  public Meeting getMeeting(final int id) {
     Meeting returnMeeting = null;
     try {
       returnMeeting = this.meetings.get(id);
@@ -213,9 +220,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return returnMeeting;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
-  public List<Meeting> getFutureMeetingList(Contact contact) {
+
+  public List<Meeting> getFutureMeetingList(final Contact contact) {
     if (contact == null) {
       throw new NullPointerException("Contact cannot be null");
     }
@@ -237,9 +245,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return returnMeetings;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
-  public List<Meeting> getMeetingListOn(Calendar date) {
+
+  public List<Meeting> getMeetingListOn(final Calendar date) {
     if (date == null) {
       throw new NullPointerException("Date cannot be null");
     }
@@ -258,9 +267,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return meetings;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
-  public List<PastMeeting> getPastMeetingListFor(Contact contact) {
+
+  public List<PastMeeting> getPastMeetingListFor(final Contact contact) {
     if (contact == null) {
       throw new NullPointerException("Contact cannot be null");
     }
@@ -283,9 +293,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return pastMeetings;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
-  public int addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
+
+  public int addNewPastMeeting(final Set<Contact> contacts, final Calendar date, final String text) {
     if (contacts == null || date == null || text == null) {
       throw new NullPointerException("Arguments cannot be null");
     }
@@ -309,9 +320,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return meetingId;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
-  public PastMeeting addMeetingNotes(int id, String text) {
+
+  public PastMeeting addMeetingNotes(final int id, final String text) {
     if (text == null) {
       throw new NullPointerException("Notes cannot be null");
     }
@@ -336,9 +348,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return meeting;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
-  public int addNewContact(String name, String notes) {
+
+  public int addNewContact(final String name, final String notes) {
     if (name == null || notes == null) {
       throw new NullPointerException("Arguments cannot be null");
     }
@@ -351,9 +364,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return contactId;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
-  public Set<Contact> getContacts(String name) {
+
+  public Set<Contact> getContacts(final String name) {
     if (name == null) {
       throw new NullPointerException("Name cannot be null");
     }
@@ -368,9 +382,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return returnContacts;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
-  public Set<Contact> getContacts(int... ids) {
+
+  public Set<Contact> getContacts(final int... ids) {
     int noIds = ids.length;
     Integer[] complexIds = new Integer[noIds];
     for (int i = 0; i < noIds; i++) {
@@ -397,7 +412,8 @@ public class ContactManagerImpl implements ContactManager, Serializable {
   * @param date an instance of Calendar that needs modifying
   * @return the date modified to contain no timestamps
   */
-  private Calendar setZeroTime(Calendar date) {
+
+  private Calendar setZeroTime(final Calendar date) {
     Calendar result = date;
     result.set(Calendar.HOUR_OF_DAY, 0);
     result.set(Calendar.MINUTE, 0);
@@ -406,8 +422,9 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     return result;
   }
   /**
-  * {@inheritDoc}
+  * {@inheritDoc}.
   */
+
   public void flush() {
     FileOutputStream output = null;
     ObjectOutputStream oos = null;
