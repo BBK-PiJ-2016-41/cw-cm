@@ -1,1 +1,19 @@
+Please look at the general comments to see if any apply.
 
+Good set of tests.
+
+The constructor for CMImpl is quite long; consider refactoring 
+to use additional (private) methods.
+
+There is some similarity between some of the methods which 
+suggests refactoring could be applied. Most usefully some Java 8
+constructs may have helped reduce the codebase and should be
+considered going forward.
+
+If you are going to explicitly throw an exception from a method
+then include an appropriate "throws" clause in the method signature
+regardless of wether the exception is checked or not. This is just
+good documentation and means that the user of your api will not
+receive any nasty surprises.
+
+Very good attempt. Distinction.
